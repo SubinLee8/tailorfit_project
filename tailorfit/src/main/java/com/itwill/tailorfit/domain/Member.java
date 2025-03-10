@@ -76,6 +76,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING) //테이블에 저장할 때 상수의 이름으로 저장
 	private Set<MemberRole> roles=new HashSet<>();  
     
+    @Basic(optional=false)
     @Column(name="birth_date")
     private LocalDate birthDate;
     
