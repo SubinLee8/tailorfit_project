@@ -4,15 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
+@RequiredArgsConstructor
 @Controller
-public class HomeController {
+@RequestMapping("/member")
+public class MemberController {
 	
-	@GetMapping("/")
-	public String home() {
-		log.info("home");
-		return "index";
+	@GetMapping("/signin")
+	public void toLogin() {
+		log.info("login");
 	}
 }
