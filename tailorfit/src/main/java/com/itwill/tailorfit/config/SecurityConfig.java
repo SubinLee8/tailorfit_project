@@ -16,10 +16,10 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-//        .authorizeHttpRequests(auth -> auth
-//            .requestMatchers("/").permitAll() // 모든 사용자 접근 허용
-//            .anyRequest().authenticated() // 그 외의 요청은 로그인 필요
-//        )
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/","member/signin").permitAll() // 모든 사용자 접근 허용
+            .anyRequest().authenticated() // 그 외의 요청은 로그인 필요
+        )
         .formLogin(login->login.loginPage("/member/signin"))
 //        .oauth2Login(oauth2 -> oauth2
 //            .loginPage("/member/signin") 
