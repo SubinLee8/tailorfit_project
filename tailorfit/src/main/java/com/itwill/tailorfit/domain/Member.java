@@ -80,6 +80,12 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Column(name="birth_date")
     private LocalDate birthDate;
     
+    @Column(name="has_body_metrics")
+    private String hasBodyMetrics;
+    
+    @Column(name="is_connected_strava")
+    private String isConnectedStrava;
+    
     public Member addRole(MemberRole role) {
 		roles.add(role); // HashSet<MemberRole> roles에 원소를 추가.
 		return this;
@@ -100,6 +106,16 @@ public class Member extends BaseTimeEntity implements UserDetails {
 		List<SimpleGrantedAuthority> authorities=roles.stream().map(x->
 				new SimpleGrantedAuthority(x.getAuthority())).toList();
 		return authorities;
+	}
+	
+	public Member updateStravaStatus(String isConnectedStrava) {
+		this.isConnectedStrava=isConnectedStrava;
+		return this;
+	}
+	
+	public Member updateBodyStatus(String hasBodyMetrics) {
+		this.hasBodyMetrics=hasBodyMetrics;
+		return this;
 	}
     
 }

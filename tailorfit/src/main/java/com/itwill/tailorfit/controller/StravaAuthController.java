@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,11 +33,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/stravaauth")
 public class StravaAuthController {
 	@Value("${spring.security.oauth2.client.registration.strava.client-id}")
 	private String clientId;
+	
 	@Value("${spring.security.oauth2.client.registration.strava.client-secret}")
 	private String clientSecret;
 
@@ -59,12 +61,16 @@ public class StravaAuthController {
 	}
 
 	@GetMapping("/callback")
-	public String callback(@RequestParam("code") String code) throws JsonMappingException, JsonProcessingException {
-		log.info("code={}", code); // authorization code
-
+	public String callback(@RequestParam("code") String code, @RequestParam("scope") String scope) throws JsonMappingException, JsonProcessingException {
+		log.info("scope={}", scope); // authorization code
+		
+		if(!scope.equals("read,activity:read_all,read_all")) {
+			return "redirect:/";
+		}
+		
 		String url = "https://www.strava.com/oauth/token?client_id=" + clientId + "&client_secret=" + clientSecret
 				+ "&code=" + code + "&grant_type=authorization_code";
-
+		
 		ResponseEntity<String> response = restTemplete.postForEntity(url, null, String.class);
 		String body = response.getBody();
 		String accessToken = objectMapper.readTree(body).get("access_token").asText();
@@ -81,7 +87,9 @@ public class StravaAuthController {
 		
 		// DB 저장
 		stravaAuthService.saveActivities(accessToken);
-		return "redirect: /";
+		
+		//내 기록으로 넘어갈 수 있도록 조정
+		return "redirect:/";
 	}
 	
 	@PostMapping("/webhook")
