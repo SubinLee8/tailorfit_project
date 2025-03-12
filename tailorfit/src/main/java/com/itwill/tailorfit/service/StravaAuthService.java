@@ -114,10 +114,40 @@ public class StravaAuthService {
 			workoutRepo.save(workout);
 		}
 	}
-
+	
+	@Transactional
 	// 웹훅 이벤트 후 단일 이벤트 저장.
-	public void saveActivity() {
+	public void saveActivity(JsonNode activity,Member member) {
+		Double distance = activity.get("distance").asDouble();
+		Integer workoutDuration = activity.get("moving_time").asInt();
+		String workoutType = activity.get("sport_type").asText();
+		if (!workoutType.equals("Run") && !workoutType.equals("Walk")) {
+			return;
+		}
+		long stravaId = activity.get("id").asLong();
+		String workoutDate = activity.get("start_date_local").asText();
+		String country = activity.get("location_country").asText();
+		JsonNode startLatLng = activity.get("start_latlng");
+		double startLat = startLatLng.get(0).asDouble();
+		double startLng = startLatLng.get(1).asDouble();
+		double avgSpeed = activity.get("average_speed").asDouble();
 
+		BodyMetric bodyMetric = bodyMetricRepo.findByMember(member);
+
+		// isConnectedStrava 변경
+		Member m = member.updateStravaStatus("Y");
+		memberRepo.save(m);
+		// 칼로리 계산
+		Double caloriesBurned = workoutService.calcuateCalories(workoutType, distance, workoutDuration,
+				bodyMetric.getWeight());
+
+		// DB에 저장
+		WorkoutRecord workout = WorkoutRecord.builder().distance(distance).workoutDuration(workoutDuration)
+				.workoutType(workoutType).stravaId(stravaId)
+				.workoutDate(LocalDateTime.parse(workoutDate, DateTimeFormatter.ISO_DATE_TIME)).country(country)
+				.startLat(startLat).startLng(startLng).avgSpeed(avgSpeed).member(member).isPrivate("Y")
+				.caloriesBurned(caloriesBurned).build();
+		workoutRepo.save(workout);
 	}
 
 	public String findAccessToken(Long ownerId) throws JsonMappingException, JsonProcessingException {
@@ -129,6 +159,12 @@ public class StravaAuthService {
 		} else {
 			return s.getAccessToken();
 		}
+	}
+	
+	public Member findMemberByOwnerId(Long ownerId) {
+		StravaAuth auth=stravaAuthRepo.findByOwnerId(ownerId);
+		return auth.getMember();
+		
 	}
 
 	public String getAccessTokenByRefreshToken(String oldRefreshToken,Long ownerId) throws JsonMappingException, JsonProcessingException {

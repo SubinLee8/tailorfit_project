@@ -2,6 +2,7 @@ package com.itwill.tailorfit.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.itwill.tailorfit.domain.Member;
 
 import lombok.AccessLevel;
@@ -15,10 +16,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor(access=AccessLevel.PRIVATE)
 public class WebhookEvent {
+	@JsonProperty("aspect_type")
 	private String aspectType;
-    private Long eventTime;
+	
+//	@JsonProperty("aspect_type")
+//    private Long eventTime;
+	@JsonProperty("object_id")
     private Long objectId;
+	
+	@JsonProperty("object_type")
     private String objectType;
+	
+	@JsonProperty("owner_id")
     private Long ownerId;
-    private Long subscriptionId;
+    //private Long subscriptionId;
 }

@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwill.tailorfit.domain.Member;
 import com.itwill.tailorfit.dto.StravaAuthCreateDto;
@@ -123,6 +124,7 @@ public class StravaAuthController {
 	@PostMapping("/subscribe")
 	public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent dto) throws JsonMappingException, JsonProcessingException {
 		// create만 받는다.
+		log.info("webhook event={}",dto);
 		if (dto.getAspectType().equals("create") && dto.getObjectType().equals("activity")) {
 			// 새로 db에 저장
 			String id = dto.getObjectId().toString();
@@ -135,10 +137,17 @@ public class StravaAuthController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.set("Authorization", "Bearer " + accessToken);
 			HttpEntity<Object> entity = new HttpEntity<>(headers);
-			return restTemplete.exchange(url, HttpMethod.GET, entity, String.class);
+			ResponseEntity<String> response =restTemplete.exchange(url, HttpMethod.GET, entity, String.class);
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode activity = objectMapper.readTree(response.getBody());
+			
+			Member member=stravaAuthService.findMemberByOwnerId(ownerId);
+			stravaAuthService.saveActivity(activity,member);
+			
+			return ResponseEntity.ok("Webhook received successfully! We saved it :) ");
 		}
 		
-		return ResponseEntity.ok("Webhook received successfully! But We don't care :)");
+		return ResponseEntity.ok("Webhook received successfully! But We don't care :) ");
 	}
 
 	// Strava의 GET 검증 요청에 응답하는 엔드포인트, 앞으로 사용하지 않는 곳.
