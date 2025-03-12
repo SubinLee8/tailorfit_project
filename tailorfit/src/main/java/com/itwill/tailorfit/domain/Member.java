@@ -89,7 +89,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     public Member addRole(MemberRole role) {
 		roles.add(role); // HashSet<MemberRole> roles에 원소를 추가.
 		return this;
-	}
+	} 
 	
 	public Member removeRole(MemberRole role) {
 		roles.remove(role); // HashSet<MemberRole> roles에서 원소를 삭제.

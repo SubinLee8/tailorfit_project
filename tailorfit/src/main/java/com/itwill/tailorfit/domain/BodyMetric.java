@@ -20,27 +20,26 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @NoArgsConstructor
 @Getter
-@ToString(callSuper = true) //super class인 createdtime, modifiedTime도 toString으로
-			
+@ToString(callSuper = true) // super class인 createdtime, modifiedTime도 toString으로
+
 @Entity
-@Table(name="body_metrics")
-public class BodyMetric {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "body_metrics")
+public class BodyMetric extends BaseTimeEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Member member;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private Member member;
 
-    private Double weight;
+	private Double weight;
 
-    private Double height;
-    @CreatedDate
-    private LocalDateTime createdTime;
+	private Double height;
+
 }
-

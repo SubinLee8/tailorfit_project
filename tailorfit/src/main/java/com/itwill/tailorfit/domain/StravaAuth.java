@@ -35,7 +35,17 @@ public class StravaAuth {
 
 	@Column(name = "access_token", length = 20, nullable = false)
 	private String accessToken;
+	
+	@Column(name="owner_id")
+	private Long ownerId;
 
 	@Column(name = "expired_at", nullable = false)
 	private LocalDateTime expiredAt;
+	
+	public StravaAuth updateTokens(String newRefreshToken, String newAccessToken, LocalDateTime expiredAt) {
+		this.refreshToken=newRefreshToken;
+		this.accessToken=newAccessToken;
+		this.expiredAt=expiredAt;
+		return this;
+	}
 }

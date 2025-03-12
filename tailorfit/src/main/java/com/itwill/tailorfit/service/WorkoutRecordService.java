@@ -3,9 +3,7 @@ package com.itwill.tailorfit.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkoutRecordService {
-	
-	
+public class WorkoutRecordService {	
 
 	public Double calcuateCalories(String workoutType, Double distance, Integer duration, Double weight) {
 		Double MET=null;

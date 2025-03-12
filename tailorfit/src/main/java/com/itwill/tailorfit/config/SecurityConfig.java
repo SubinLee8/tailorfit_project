@@ -17,7 +17,10 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","member/signin").permitAll() // 모든 사용자 접근 허용
+            .requestMatchers("/","/member/signin","/stravaauth/subscribe").permitAll() // 모든 사용자 접근 허용
+            .requestMatchers("/member/bodymetrics").hasRole("GUEST") // 모든 사용자 접근 허용
+            .requestMatchers("/stravaauth/login").hasRole("ATHLETE")
+            //.requestMatchers().hasRole("TRAINER")
             .anyRequest().authenticated() // 그 외의 요청은 로그인 필요
         )
         .formLogin(login->login.loginPage("/member/signin"))

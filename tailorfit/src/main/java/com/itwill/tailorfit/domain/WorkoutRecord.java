@@ -52,7 +52,7 @@ public class WorkoutRecord extends BaseTimeEntity {
     @Column(name="strava_id")
     private Long stravaId;
     
-    @Column(name="avg_spped")
+    @Column(name="avg_speed")
     private Double avgSpeed;
     
     @Column(name="start_lat")
