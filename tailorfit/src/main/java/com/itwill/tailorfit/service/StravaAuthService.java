@@ -92,6 +92,7 @@ public class StravaAuthService {
 			String workoutDate = activity.get("start_date_local").asText();
 			String country = activity.get("location_country").asText();
 			JsonNode startLatLng = activity.get("start_latlng");
+			String title=activity.get("name").asText();
 			double startLat = startLatLng.get(0).asDouble();
 			double startLng = startLatLng.get(1).asDouble();
 			double avgSpeed = activity.get("average_speed").asDouble();
@@ -107,7 +108,7 @@ public class StravaAuthService {
 
 			// DB에 저장
 			WorkoutRecord workout = WorkoutRecord.builder().distance(distance).workoutDuration(workoutDuration)
-					.workoutType(workoutType).stravaId(stravaId)
+					.workoutType(workoutType).stravaId(stravaId).title(title)
 					.workoutDate(LocalDateTime.parse(workoutDate, DateTimeFormatter.ISO_DATE_TIME)).country(country)
 					.startLat(startLat).startLng(startLng).avgSpeed(avgSpeed).member(member).isPrivate("Y")
 					.caloriesBurned(caloriesBurned).build();
@@ -125,6 +126,7 @@ public class StravaAuthService {
 			return;
 		}
 		long stravaId = activity.get("id").asLong();
+		String title=activity.get("name").asText();
 		String workoutDate = activity.get("start_date_local").asText();
 		String country = activity.get("location_country").asText();
 		JsonNode startLatLng = activity.get("start_latlng");
@@ -143,7 +145,7 @@ public class StravaAuthService {
 
 		// DB에 저장
 		WorkoutRecord workout = WorkoutRecord.builder().distance(distance).workoutDuration(workoutDuration)
-				.workoutType(workoutType).stravaId(stravaId)
+				.workoutType(workoutType).stravaId(stravaId).title(title)
 				.workoutDate(LocalDateTime.parse(workoutDate, DateTimeFormatter.ISO_DATE_TIME)).country(country)
 				.startLat(startLat).startLng(startLng).avgSpeed(avgSpeed).member(member).isPrivate("Y")
 				.caloriesBurned(caloriesBurned).build();

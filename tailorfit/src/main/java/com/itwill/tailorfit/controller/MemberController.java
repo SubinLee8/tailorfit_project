@@ -36,4 +36,9 @@ public class MemberController {
 		Long id=bodyMetricService.create(dto);
 		return "redirect:/";
 	}
+	
+	@GetMapping("/member/googlelogin")
+	public void loginWithGoolge() {
+		
+	}
 }

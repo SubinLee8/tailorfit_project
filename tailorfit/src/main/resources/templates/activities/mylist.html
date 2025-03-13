@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/layout/fragments :: htmlHead('My Workout Lists')}">
+</head>
+<body>
+	<main class="mt-2">
+		<div class="mt-2">
+			<div class="mt-2">
+				<!-- 검색기능 -->
+			</div>
+			<a th:href="@{/activities/create}">새 기록</a>
+			<div class="mt-2" th:each="page : ${page}" th:object="${page}">
+				<div class="card">
+					<a th:href="@{/activities/details(id=*{id})}"><div
+							class="card-title" th:text="*{title}"></div></a>
+					<div class="card-subtitle" th:text="*{workoutType}"></div>
+					<div class="map"
+						th:attr="data-lat=*{startLat}, data-lng=*{startLng}"
+						style="width: 300px; height: 200px;"></div>
+					<div class="card-details">
+						<p th:text="*{workoutDate}"></p>
+						<p th:text="*{workoutDuration}"></p>
+						<p th:text="*{avgSpeed}"></p>
+						<p th:text="*{distance}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
+	<script>
+		var mapContainers = document.querySelectorAll(".map"); //지도를 담을 영역의 DOM 레퍼런스
+		mapContainers.forEach(function(container) {
+			var lat = container.getAttribute("data-lat"); // data-lat 값 가져오기
+			var lng = container.getAttribute("data-lng"); // data-lng 값 가져오기
+
+			var options = {
+				center : new kakao.maps.LatLng(lat, lng), // 지도 중심 좌표 설정
+				level : 3
+			// 지도 확대/축소 레벨
+			};
+			console.log(lat, lng);
+
+			var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		});
+	</script>
+</body>
+</html>

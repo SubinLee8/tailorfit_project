@@ -17,10 +17,11 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","/member/signin","/stravaauth/subscribe").permitAll() // 모든 사용자 접근 허용
-            .requestMatchers("/member/bodymetrics").hasRole("GUEST") // 모든 사용자 접근 허용
-            .requestMatchers("/stravaauth/login").hasRole("ATHLETE")
-            //.requestMatchers().hasRole("TRAINER")
+            .requestMatchers("/","/member/signin","/stravaauth/subscribe"
+            		, "/member/signup").permitAll() // 논 유저도 접근 허용
+            .requestMatchers("/member/bodymetrics","/shared/activities").hasRole("GUEST") // 게스트만 접근 허용
+            .requestMatchers("/stravaauth/login","/personal/activities","/personal/dashboard").hasRole("ATHLETE") //선수만 접근 가능
+            .requestMatchers("/personal/myathletes").hasRole("TRAINER") // 트레이너만 접근 가능
             .anyRequest().authenticated() // 그 외의 요청은 로그인 필요
         )
         .formLogin(login->login.loginPage("/member/signin"))

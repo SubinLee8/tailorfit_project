@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.itwill.tailorfit.dto.WorkoutRecordUpdateDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,6 +37,11 @@ public class WorkoutRecord extends BaseTimeEntity {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
+    
+    @Column(name="like_count")
+    private Integer likeCount=0;
+    
+    private String title;
     
     @Column(name="workout_date")
     private LocalDateTime workoutDate;
@@ -67,6 +74,24 @@ public class WorkoutRecord extends BaseTimeEntity {
     @Column(name="is_private")
     private String isPrivate;
 
-
+    public WorkoutRecord update(WorkoutRecordUpdateDto dto) {
+    	this.title=dto.getTitle();
+    	this.workoutDate=dto.getWorkoutDate();
+    	this.country=dto.getCountry();
+    	this.workoutType=dto.getWorkoutType();
+    	this.workoutDuration=dto.getWorkoutDuration();
+    	this.distance=dto.getDistance();
+    	this.avgSpeed=dto.getAvgSpeed();
+    	this.startLat=dto.getStartLat();
+    	this.startLng=dto.getStartLng();
+    	this.caloriesBurned=dto.getCaloriesBurned();
+    	if(dto.getIsPrivate()) {
+    		this.isPrivate="Y";
+    	}
+    	else {
+    		this.isPrivate="N";
+    	}
+    	return this;
+    }
 }
 
