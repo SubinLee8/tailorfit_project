@@ -21,7 +21,8 @@
 						<strong>아이디:</strong> <span id="id" th:text="*{id}"></span>
 					</p>
 					<p>
-						<strong>닉네임:</strong> <span id="id" th:text="*{member.nickname}"></span>
+						<strong>닉네임:</strong> <span id="nickname"
+							th:text="*{member.nickname}"></span>
 					</p>
 					<p>
 						<strong>운동 날짜:</strong> <span th:text="*{workoutDate}"></span>
@@ -62,16 +63,17 @@
 		<div class="centered-form">
 			<div class="card" style="width: 100%; max-width: 500px;">
 				<div class="card-body">
-					<form action="/submit-comment" method="POST">
-						<div class="mb-3">
-							<textarea class="form-control" id="comment" name="comment"
-								rows="4" placeholder="댓글을 작성하세요..." required></textarea>
-						</div>
-						<div class="mb-3">
-							<button type="submit" class="btn btn-primary w-100">댓글
-								작성</button>
-						</div>
-					</form>
+
+					<div class="d-none" id="username" th:text="*{#authentication.name}"></div>
+					<div class="mb-3">
+						<textarea class="form-control" id="content" name="content"
+							rows="4" placeholder="댓글을 작성하세요..." required></textarea>
+					</div>
+					<div class="mb-3">
+						<button id="btnCreate" class="btn btn-primary w-100">댓글
+							작성</button>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -90,6 +92,7 @@
 	</main>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script th:src="@{/activities/details.js}"></script>
 	<script>
 		var mapContainer = document.querySelector(".map"); //지도를 담을 영역의 DOM 레퍼런스

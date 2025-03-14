@@ -8,5 +8,6 @@ import com.itwill.tailorfit.domain.Comment;
 import com.itwill.tailorfit.domain.WorkoutRecord;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
+	Page<Comment> findByWorkoutRecord(WorkoutRecord record, Pageable pageable);
 	Page<Comment> findByWorkoutRecordId(Long id, Pageable pageable);
 }

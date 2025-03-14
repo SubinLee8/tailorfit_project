@@ -15,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwill.tailorfit.domain.BodyMetric;
+import com.itwill.tailorfit.domain.Member;
+import com.itwill.tailorfit.domain.WorkoutRoutine;
 import com.itwill.tailorfit.dto.WorkoutRecordCreateDto;
 import com.itwill.tailorfit.dto.WorkoutRecordItemDto;
 import com.itwill.tailorfit.dto.WorkoutRecordUpdateDto;
+import com.itwill.tailorfit.repository.BodyMetricRepository;
 import com.itwill.tailorfit.repository.MemberRepository;
+import com.itwill.tailorfit.service.BodyMetricsService;
+import com.itwill.tailorfit.service.MemberService;
 import com.itwill.tailorfit.service.WorkoutRecordService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/activities")
 public class ActivitiesController {
 	private final WorkoutRecordService workoutService;
+	private final MemberRepository memberRepo;
+	private final BodyMetricsService bodyMetricService;
 
 	// ATHELTE만 접근 가능
 	@GetMapping("/mylist")
@@ -90,18 +98,43 @@ public class ActivitiesController {
 
 	// ATHELTE만 접근 가능
 	@GetMapping("/mydashboard")
-	public void getMyDashBoard() {
+	public void getMyDashBoard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		String username = userDetails.getUsername();
+		// 내 추천 루틴, 내 몸무게 변화량, 내 운동량 가져오기
+		Member member = memberRepo.findByUsername(username).orElseThrow();
+		Long id = member.getId();
+		WorkoutRoutine routine = member.getWorkoutRoutine();
 
+		// 모델에 넣을 값들
+		Integer runningRoutine = routine.getRunning();
+		Integer walkingRoutine = routine.getWalking();
+		Integer stretchingRoutine = routine.getStreching();
+		List<Integer> weights = bodyMetricService.getWeeklyWeight(id);
+		List<Integer> runningTimes = workoutService.getWeeklyDuration(id, "Run");
+		List<Integer> walkings = workoutService.getWeeklyDuration(id, "Walk");
+		List<Integer> stretchings = workoutService.getWeeklyDuration(id, "Stretch");
+
+		Integer[] weightsArray = weights.toArray(new Integer[0]);
+		Integer[] runningTimesArray = runningTimes.toArray(new Integer[0]);
+		Integer[] walkingsArray = walkings.toArray(new Integer[0]);
+		Integer[] stretchingsArray = stretchings.toArray(new Integer[0]);
+		
+		model.addAttribute("runningRoutine", runningRoutine);
+		model.addAttribute("walkingRoutine", walkingRoutine);
+		model.addAttribute("stretchingRoutine", stretchingRoutine);
+		model.addAttribute("weights", weights);
+		model.addAttribute("runningTimes", runningTimes);
+		model.addAttribute("walkingsTimes", walkings);
+		model.addAttribute("stretchingsTimes", stretchings);
 	}
 
 	@GetMapping("/sharedlist")
-	public void showPublicRecords(
-			@RequestParam(name = "p", defaultValue = "0") Integer pageNo, Model model) {
-		
+	public void showPublicRecords(@RequestParam(name = "p", defaultValue = "0") Integer pageNo, Model model) {
+
 		Page<WorkoutRecordItemDto> lists = workoutService.readPublicActivities(pageNo, Sort.by("id").descending());
 		model.addAttribute("page", lists);
 		model.addAttribute("baseUrl", "/activities/sharedlist");
 		log.info("dto={}", lists);
-	}
 
+	}
 }

@@ -97,7 +97,7 @@ public class StravaAuthService {
 			double startLng = startLatLng.get(1).asDouble();
 			double avgSpeed = activity.get("average_speed").asDouble();
 
-			BodyMetric bodyMetric = bodyMetricRepo.findByMember(member);
+			BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member);
 
 			// isConnectedStrava 변경
 			Member m = member.updateStravaStatus("Y");
@@ -134,7 +134,7 @@ public class StravaAuthService {
 		double startLng = startLatLng.get(1).asDouble();
 		double avgSpeed = activity.get("average_speed").asDouble();
 
-		BodyMetric bodyMetric = bodyMetricRepo.findByMember(member);
+		BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member);
 
 		// isConnectedStrava 변경
 		Member m = member.updateStravaStatus("Y");

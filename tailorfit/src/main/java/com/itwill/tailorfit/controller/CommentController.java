@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.tailorfit.domain.Comment;
 import com.itwill.tailorfit.dto.CommentCreateDto;
+import com.itwill.tailorfit.dto.CommentItemDto;
 import com.itwill.tailorfit.dto.CommentUpdateDto;
 import com.itwill.tailorfit.service.CommentService;
 
@@ -29,10 +30,10 @@ public class CommentController {
 	private final CommentService commentService;
 
 	@GetMapping("/all/{recordId}")
-	public ResponseEntity<PagedModel<Comment>> getCommentList(@PathVariable Long postId,
+	public ResponseEntity<PagedModel<CommentItemDto>> getCommentList(@PathVariable Long recordId,
 			@RequestParam(defaultValue = "0") int p) {
 		// 최종 수정 시간의 내림차순으로 정렬된, 한 페이지에 출력할 댓글 목록을 가져옴.
-		Page<Comment> comments = commentService.readByRecord(postId, Sort.by("modifiedTime").descending(), p);
+		Page<CommentItemDto> comments = commentService.readByRecord(recordId, Sort.by("modifiedTime").descending(), p);
 		return ResponseEntity.ok(new PagedModel<>(comments));
 	}
 	

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.itwill.tailorfit.domain.BodyMetric;
 import com.itwill.tailorfit.dto.BodymetricCreateDto;
 import com.itwill.tailorfit.service.BodyMetricsService;
+import com.itwill.tailorfit.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 public class MemberController {
 		private final BodyMetricsService bodyMetricService;
+		private final MemberService memberService;
 	
 	@GetMapping("/signin")
 	public void toLogin() {
@@ -34,6 +36,9 @@ public class MemberController {
 	public String createBodymetrics(BodymetricCreateDto dto) {
 		log.info("dto={}",dto);
 		Long id=bodyMetricService.create(dto);
+		//운동 플랜 변경하기
+		memberService.updatePlan(dto);
+		
 		return "redirect:/";
 	}
 	

@@ -1,6 +1,12 @@
 package com.itwill.tailorfit.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.WeekFields;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +18,7 @@ import com.itwill.tailorfit.domain.BodyMetric;
 import com.itwill.tailorfit.domain.Member;
 import com.itwill.tailorfit.domain.WorkoutRecord;
 import com.itwill.tailorfit.dto.WorkoutRecordCreateDto;
+import com.itwill.tailorfit.dto.WorkoutRecordDashboardDto;
 import com.itwill.tailorfit.dto.WorkoutRecordItemDto;
 import com.itwill.tailorfit.dto.WorkoutRecordUpdateDto;
 import com.itwill.tailorfit.repository.BodyMetricRepository;
@@ -69,23 +76,42 @@ public class WorkoutRecordService {
 	@Transactional
 	public Long createWorkoutRecord(WorkoutRecordCreateDto dto, String username) {
 		Member member = memberRepo.findByUsername(username).orElseThrow();
-		Double weight = bodyRepo.findByMember(member).getWeight();
+		Double weight = bodyRepo.findByMemberLatest(member).getWeight();
 		Double calories = calcuateCalories(dto.getWorkoutType(), dto.getDistance(), dto.getWorkoutDuration(), weight);
 		WorkoutRecord entity = workoutRepo.save(dto.toEntity(calories, member));
 		return entity.getId();
 	}
 
 	@Transactional
+	public List<Integer> getWeeklyDuration(Long userId,String workoutType) {
+		// DB에서 데이터를 가져옵니다.
+		LocalDateTime fourWeeksAgo = LocalDateTime.now().minusWeeks(4).with(LocalTime.MIN);
+		List<Object[]> results = workoutRepo.findWeeklyRunDuration(userId, fourWeeksAgo, workoutType);
+
+		// 주차별로 값을 저장할 리스트
+		List<Integer> durations = Arrays.asList(0, 0, 0, 0);
+		for (Object[] result : results) {
+			int weekDiff = ((Number) result[0]).intValue(); // 안전한 변환
+			int duration = ((Number) result[1]).intValue(); // Long -> int 변환
+
+			int index = 3 - weekDiff;
+			durations.set(index, duration);
+		}
+
+		return durations;
+	}
+
+	@Transactional
 	public void update(WorkoutRecordUpdateDto dto) {
 		WorkoutRecord record = workoutRepo.findById(dto.getId()).orElseThrow();
 		Member member = memberRepo.findById(dto.getUserId()).orElseThrow();
-		BodyMetric body = bodyRepo.findByMember(member);
+		BodyMetric body = bodyRepo.findByMemberLatest(member);
 		Double calories = calcuateCalories(dto.getWorkoutType(), dto.getDistance(), dto.getWorkoutDuration(),
 				body.getWeight());
 		dto.setCaloriesBurned(calories);
 		record.update(dto);
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Page<WorkoutRecordItemDto> readPublicActivities(Integer pageNo, Sort sort) {
 		PageRequest pageable = PageRequest.of(pageNo, 10, sort);

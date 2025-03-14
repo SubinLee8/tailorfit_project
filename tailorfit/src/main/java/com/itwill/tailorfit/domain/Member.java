@@ -117,6 +117,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
 		this.hasBodyMetrics=hasBodyMetrics;
 		return this;
 	}
+	
+	public Member updatePlan(WorkoutRoutine plan) {
+		this.workoutRoutine=plan;
+		return this;
+	}
     
 }
 

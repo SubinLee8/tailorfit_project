@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-@Table(name="workout_routine")
+@Table(name="workout_routines")
 @Entity
 public class WorkoutRoutine {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-    private String walking;   // 걷기
-    private String streching; // 스트레칭
-    private String running;   // 달리기
+    private Integer walking;   // 걷기
+    private Integer streching; // 스트레칭
+    private Integer running;   // 달리기
 }

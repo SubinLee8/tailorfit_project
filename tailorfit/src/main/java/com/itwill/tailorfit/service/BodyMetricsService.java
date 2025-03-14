@@ -1,6 +1,11 @@
 package com.itwill.tailorfit.service;
 
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.itwill.tailorfit.domain.BodyMetric;
@@ -37,5 +42,24 @@ public class BodyMetricsService {
 		}
 		return result.getId();
 		
+	}
+	
+	@Transactional
+	public List<Integer> getWeeklyWeight(Long userId) {
+		// DB에서 데이터를 가져옵니다.
+		LocalDateTime fourWeeksAgo = LocalDateTime.now().minusWeeks(4).with(LocalTime.MIN);
+		List<Object[]> results = bodyMetricRepo.findWeeklyWeight(userId, fourWeeksAgo);
+
+		// 주차별로 값을 저장할 리스트
+		List<Integer> durations = Arrays.asList(0, 0, 0, 0);
+		for (Object[] result : results) {
+			int weekDiff = ((Number) result[0]).intValue(); // 안전한 변환
+			int duration = ((Number) result[1]).intValue(); // Long -> int 변환
+
+			int index = 3 - weekDiff;
+			durations.set(index, duration);
+		}
+
+		return durations;
 	}
 }
