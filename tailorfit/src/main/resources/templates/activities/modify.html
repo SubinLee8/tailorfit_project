@@ -72,8 +72,8 @@
 			<div class="mb-3">
 				<label class="form-label">시작 위치</label>
 				<div id="map" style="width: 100%; height: 300px;"></div>
-				<input type="hidden" id="startLat" th:value="*{startLat}"> <input
-					type="hidden" th:value="*{startLng}" id="startLng">
+				<!--<input type="hidden" id="startLat" th:value="*{startLat}"> <input
+					type="hidden" th:value="*{startLng}" id="startLng"> -->
 				<p>
 					클릭한 위치 - 위도: <input id="latDisplay" type="text" name="startLat"
 						th:value="*{startLat}" required></input>, 경도: <input
@@ -110,8 +110,8 @@
 		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 			var latlng = mouseEvent.latLng;
 
-			document.getElementById('startLat').value = latlng.getLat();
-			document.getElementById('startLng').value = latlng.getLng();
+			//document.getElementById('startLat').value = latlng.getLat();
+			//document.getElementById('startLng').value = latlng.getLng();
 			document.getElementById('latDisplay').value = latlng.getLat();
 			document.getElementById('lngDisplay').value = latlng.getLng();
 		});

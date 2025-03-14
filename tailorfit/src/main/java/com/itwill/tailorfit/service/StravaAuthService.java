@@ -145,7 +145,7 @@ public class StravaAuthService {
 
 		// DB에 저장
 		WorkoutRecord workout = WorkoutRecord.builder().distance(distance).workoutDuration(workoutDuration)
-				.workoutType(workoutType).stravaId(stravaId).title(title)
+				.workoutType(workoutType).stravaId(stravaId).title(title).likeCount(workoutDuration).likeCount(0)
 				.workoutDate(LocalDateTime.parse(workoutDate, DateTimeFormatter.ISO_DATE_TIME)).country(country)
 				.startLat(startLat).startLng(startLng).avgSpeed(avgSpeed).member(member).isPrivate("Y")
 				.caloriesBurned(caloriesBurned).build();
@@ -174,8 +174,8 @@ public class StravaAuthService {
 		Map<String, String> params = new HashMap<>();
 		params.put("client_id", clientId);
 		params.put("client_secret", clientSecret);
-		params.put("Refresh_token", oldRefreshToken);
-		params.put("grant_type", "refresh_code");
+		params.put("refresh_token", oldRefreshToken);
+		params.put("grant_type", "refresh_token");
 		
 		
 		HttpHeaders headers = new HttpHeaders();

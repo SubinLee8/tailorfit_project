@@ -17,29 +17,34 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @NoArgsConstructor
 @Getter
-@ToString(callSuper = true) //super class인 createdtime, modifiedTime도 toString으로
-			
-@Table(name="comments")
+@ToString(callSuper = true) // super class인 createdtime, modifiedTime도 toString으로
+
+@Table(name = "comments")
 @Entity
 public class Comment extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "record_id")
-    private WorkoutRecord workoutRecord;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "record_id")
+	private WorkoutRecord workoutRecord;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Member member;
-    
-    private String content;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private Member member;
 
+	private String content;
+
+	public Comment update(String content) {
+		this.content = content;
+		return this;
+
+	}
 
 }
-
