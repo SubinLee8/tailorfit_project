@@ -3,6 +3,7 @@ package com.itwill.tailorfit.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,8 +14,9 @@ import com.itwill.tailorfit.domain.Member;
 public interface BodyMetricRepository extends JpaRepository<BodyMetric, Long> {
 	List<BodyMetric> findByMember(Member member);
 
-	@Query("select b from BodyMetric b where b.member = :member order by b.createdTime desc")
-	BodyMetric findByMemberLatest(@Param("member") Member member);
+	@Query("SELECT b FROM BodyMetric b WHERE b.member = :member ORDER BY b.createdTime DESC")
+	List<BodyMetric> findByMemberLatest(@Param("member") Member member, Pageable pageable);
+
 
 	@Query("SELECT " + "  WEEK(CURRENT_DATE) - WEEK(w.createdTime) AS weekDiff, "
 			+ "  COALESCE(AVG(w.weight), 0) AS avgWeight " + // NULL 방지

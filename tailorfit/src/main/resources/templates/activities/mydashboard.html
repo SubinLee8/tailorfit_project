@@ -4,7 +4,7 @@
 </head>
 <body>
 	<div class="mt-2" id="review"></div>
-	
+
 	<h2>달린 시간</h2>
 	<canvas id="lineChart" width="400" height="200"></canvas>
 
@@ -13,9 +13,9 @@
 
 	<h2>몸무게 변화량</h2>
 	<canvas id="barChart" width="400" height="200"></canvas>
-	
-	
-	
+
+
+
 
 	<!-- JavaScript에 값을 전달 -->
 	<input type="hidden" id="runningRoutine" th:value="${runningRoutine}" />
@@ -27,10 +27,10 @@
 	<input type="hidden" id="walkingsTimes" th:value="${walkingsTimes}" />
 	<input type="hidden" id="stretchingsTimes"
 		th:value="${stretchingsTimes}" />
-		
-		
+
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script th:src="@{/activities/mydashboard.js}"></script>
-
+	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 </body>
 </html>

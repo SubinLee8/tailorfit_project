@@ -9,7 +9,8 @@
 			<!-- 유저아이디 -->
 			<div class="mb-3 d-none">
 				<label for="username" class="form-label">아이디</label> <input
-					type="text" class="form-control" id="username" name="username" th:value="${#authentication.name}">
+					type="text" class="form-control" id="username" name="username"
+					th:value="${#authentication.name}">
 			</div>
 			<!-- 제목 -->
 			<div class="mb-3">
@@ -85,6 +86,7 @@
 	</div>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
+	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 	<script>
 		// 지도 생성
 		var container = document.getElementById('map');

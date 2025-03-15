@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -97,7 +98,7 @@ public class StravaAuthService {
 			double startLng = startLatLng.get(1).asDouble();
 			double avgSpeed = activity.get("average_speed").asDouble();
 
-			BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member);
+			BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member, PageRequest.of(0, 1)).stream().findFirst().orElse(null);
 
 			// isConnectedStrava 변경
 			Member m = member.updateStravaStatus("Y");
@@ -134,7 +135,7 @@ public class StravaAuthService {
 		double startLng = startLatLng.get(1).asDouble();
 		double avgSpeed = activity.get("average_speed").asDouble();
 
-		BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member);
+		BodyMetric bodyMetric = bodyMetricRepo.findByMemberLatest(member, PageRequest.of(0, 1)).stream().findFirst().orElse(null);
 
 		// isConnectedStrava 변경
 		Member m = member.updateStravaStatus("Y");

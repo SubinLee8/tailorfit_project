@@ -65,24 +65,24 @@ document.addEventListener('DOMContentLoaded', () => {
 	const lineChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: ['Current', '1 Week Ago', '2 Week Ago', '3 Week Ago'], // 주간 라벨
+			labels: ['3 Weeks Ago', '2 Weeks Ago', '1 Week Ago', 'Current'], // 주간 라벨
 			datasets: [
 				{
-					label: '걸은 시간(분)',
+					label: '합산 걸은 시간(분)',
 					data: walkingsTimes, // 각 주차의 몸무게 변화량
 					borderColor: 'rgba(75, 192, 192, 1)', // 라인 색상
 					fill: false, // 라인 아래를 채우지 않음
 					tension: 0.1
 				},
 				{
-					label: '달린 시간(분)',
+					label: '합산 달린 시간(분)',
 					data: runningTimes, // 각 주차의 달린 거리
 					borderColor: 'rgba(153, 102, 255, 1)', // 라인 색상
 					fill: false,
 					tension: 0.1
 				},
 				{
-					label: '스트레칭 시간(분)',
+					label: '합산 스트레칭 시간(분)',
 					data: stretchingsTimes, // 각 주차의 달린 거리
 					borderColor: 'rgba(255, 99, 132, 1)',
 					fill: false,
@@ -134,12 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	const barChart = new Chart(ctxBar, {
 		type: 'bar',
 		data: {
-			labels: ['Current', '1 Week Ago', '2 Week Ago', '3 Week Ago'], // 주차
+			labels: ['3 Weeks Ago', '2 Weeks Ago', '1 Week Ago', 'Current'], // 주간 라벨
 			datasets: [{
-				label: '몸무게 변화량 (km)',
+				label: '몸무게 변화량 (kg)',
 				data: weights, // 각 주차의 달린 거리
-				backgroundColor: 'rgba(255, 159, 64, 0.2)',
-				borderColor: 'rgba(255, 159, 64, 1)',
+				backgroundColor: 'rgba(0, 0, 128, 0.2)', // 남색 배경
+				borderColor: 'rgba(0, 0, 128, 1)',
 				borderWidth: 1
 			}]
 		},
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				y: {
 					title: {
 						display: true,
-						text: '달린 거리 (km)'
+						text: '몸무게(kg)'
 					}
 				}
 			}

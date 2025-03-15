@@ -76,7 +76,7 @@ public class WorkoutRecordService {
 	@Transactional
 	public Long createWorkoutRecord(WorkoutRecordCreateDto dto, String username) {
 		Member member = memberRepo.findByUsername(username).orElseThrow();
-		Double weight = bodyRepo.findByMemberLatest(member).getWeight();
+		Double weight = bodyRepo.findByMemberLatest(member, PageRequest.of(0, 1)).stream().findFirst().orElse(null).getWeight();
 		Double calories = calcuateCalories(dto.getWorkoutType(), dto.getDistance(), dto.getWorkoutDuration(), weight);
 		WorkoutRecord entity = workoutRepo.save(dto.toEntity(calories, member));
 		return entity.getId();
@@ -105,7 +105,7 @@ public class WorkoutRecordService {
 	public void update(WorkoutRecordUpdateDto dto) {
 		WorkoutRecord record = workoutRepo.findById(dto.getId()).orElseThrow();
 		Member member = memberRepo.findById(dto.getUserId()).orElseThrow();
-		BodyMetric body = bodyRepo.findByMemberLatest(member);
+		BodyMetric body = bodyRepo.findByMemberLatest(member, PageRequest.of(0, 1)).stream().findFirst().orElse(null);
 		Double calories = calcuateCalories(dto.getWorkoutType(), dto.getDistance(), dto.getWorkoutDuration(),
 				body.getWeight());
 		dto.setCaloriesBurned(calories);
