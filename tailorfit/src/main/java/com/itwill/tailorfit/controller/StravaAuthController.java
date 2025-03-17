@@ -52,6 +52,9 @@ public class StravaAuthController {
 
 	@Value("${spring.security.oauth2.client.registration.strava.client-secret}")
 	private String clientSecret;
+	
+	@Value("${spring.security.oauth2.client.registration.strava.redirect-uri}")
+	private String redirectonUri;
 
 	@Autowired
 	RestTemplate restTemplete;
@@ -73,7 +76,7 @@ public class StravaAuthController {
 		}
 		// 권한 명시가 중요하다. activity:read_all 이 핵심
 		String authUrl = "https://www.strava.com/oauth/authorize?client_id=" + clientId
-				+ "&response_type=code&redirect_uri=http://localhost:8080/stravaauth/callback&approval_prompt=force&scope=read_all,activity:read_all";
+				+ "&response_type=code&redirect_uri="+redirectonUri+"/stravaauth/callback&approval_prompt=force&scope=read_all,activity:read_all";
 		// Found이므로 302==get요청을 보내며 요청 Location은 authUrl
 		return ResponseEntity.status(HttpStatus.FOUND).header("Location", authUrl).build();
 	}
