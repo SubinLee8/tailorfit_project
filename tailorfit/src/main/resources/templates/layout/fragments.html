@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:fragment="htmlHead(title))">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${title}"></title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="/css/style.css" />
+<style>
+/* 화면 중앙에 폼 배치 */
+.centered-form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+</head>
+<body>
+	<th:block th:fragment="pageHeader">
+		<nav>
+			<div class="logo">TailorFit</div>
+			<div class="nav-items">
+				<a href="/">Home</a> <a href="/">Public Space</a> <a href="/">My
+					Records</a> <a href="/">My DashBoard</a>
+				<th:block sec:authorize="isAnonymous()">
+					<a th:href="@{/member/signin}">Login</a>
+				</th:block>
+				<th:block sec:authorize="isAuthenticated()">
+					<a th:href="@{/logout}">Logout</a>
+					<button class="btn" type="button" data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">User</button>
+				</th:block>
+			</div>
+		</nav>
+		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+			aria-labelledby="offcanvasRightLabel">
+			<div class="offcanvas-header">
+				<h5 id="offcanvasRightLabel">Offcanvas right</h5>
+				<button type="button" class="btn-close text-reset"
+					data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body">하이하이</div>
+		</div>
+	</th:block>
+
+	<th:block th:fragment="pageFooter">
+		<footer class="border-bottom "
+			style="background: #fdcc04; padding: 0;">
+			<ul class="nav justify-content-center">
+				<li class="nav-item"><a href="#"
+					class="nav-link px-2 text-body-secondary">Home</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link px-2 text-body-secondary">Features</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link px-2 text-body-secondary">Pricing</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link px-2 text-body-secondary">FAQs</a></li>
+				<li class="nav-item"><a href="#"
+					class="nav-link px-2 text-body-secondary">About</a></li>
+			</ul>
+			<p class="text-center text-body-secondary">© 2025 Java Spring
+				Boot Solo Project</p>
+		</footer>
+	</th:block>
+
+	<th:block th:fragment="bootstrapJS">
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+			crossorigin="anonymous"></script>
+	</th:block>
+</body>
+</html>
