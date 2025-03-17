@@ -30,6 +30,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./tailorfit/gradlew 
+
       # 4. Gradle 빌드 및 테스트
       - name: Build and test with Gradle
         run: ./tailorfit/gradlew build test
