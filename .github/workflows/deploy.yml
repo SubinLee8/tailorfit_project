@@ -63,10 +63,16 @@ jobs:
       # 8. EC2에 배포
       - name: Deploy to EC2
         run: |
-          # 8-1. EC2로 docker-compose.yml 파일 전송
+          # 8-1. EC2로 docker-compose.yml 파일 전송 (디렉토리 존재 여부 확인 후 생성)
+          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            # 디렉토리가 없으면 생성
+            mkdir -p /home/ubuntu/app
+          EOF
+
+          # 8-2. EC2로 docker-compose.yml 파일 전송
           scp -o StrictHostKeyChecking=no -i private_key.pem ./tailorfit/docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/app/docker-compose.yml
 
-          # 8-2. EC2에 접속하여 배포
+          # 8-3. EC2에 접속하여 배포
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             cd ~/app  # EC2 서버의 앱 디렉토리로 이동
 
@@ -82,4 +88,3 @@ jobs:
             # Docker Compose 실행 (환경 변수 로드)
             sudo docker-compose --env-file .env up -d
           EOF
-
