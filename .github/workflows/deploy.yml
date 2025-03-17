@@ -38,6 +38,7 @@ jobs:
         run: |
           cd ./tailorfit
           ./gradlew build test
+          ls -al build/libs
 
       # 5. Docker Hub 로그인
       - name: Set up Docker login
