@@ -35,7 +35,9 @@ jobs:
 
       # 4. Gradle 빌드 및 테스트
       - name: Build and test with Gradle
-        run: ./tailorfit/gradlew build test
+        run: |
+          cd ./tailorfit
+          ./gradlew build test
 
       # 5. Docker Hub 로그인
       - name: Set up Docker login
