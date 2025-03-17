@@ -32,7 +32,7 @@ jobs:
 
       # 4. Gradle 빌드 및 테스트
       - name: Build and test with Gradle
-        run: ../../tailorfit/gradlew build test   # Gradle 빌드 및 테스트 실행
+        run: /home/runner/work/tailorfit_project/tailorfit/gradlew build test   # Gradle 빌드 및 테스트 실행
 
       # 5. Docker Hub 로그인
       - name: Set up Docker login
