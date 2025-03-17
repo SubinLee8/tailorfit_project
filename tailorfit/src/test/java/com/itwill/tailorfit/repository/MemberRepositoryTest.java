@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.itwill.tailorfit.domain.Member;
 import com.itwill.tailorfit.domain.MemberRole;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
@@ -33,6 +32,6 @@ public class MemberRepositoryTest {
 				.gender("F").nickname("크하").password(encoder.encode("4444")).username("admin4").build();
 		m1.addRole(MemberRole.GUEST);
 		Member entity=memberRepo.save(m1);
-		log.info("생성된 entity={}",entity);
+		
 	}
 }
