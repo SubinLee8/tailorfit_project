@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    image: ${{ secrets.DOCKER_USERNAME }}/myapp:latest  # Docker Hub에서 가져올 이미지
+    container_name: springboot-app
+    environment:
+      - SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}  # RDS 데이터베이스 URL
+      - SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}  # RDS 사용자명
+      - SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}  # RDS 비밀번호
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver  # MySQL 드라이버 설정
+    ports:
+      - "8080:8080"  # 컨테이너의 8080 포트를 호스트의 8080 포트로 매핑
+    networks:
+      - app-network  # 네트워크 설정
+
+networks:
+  app-network:
