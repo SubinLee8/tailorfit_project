@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head th:replace="~{/layout/fragments :: htmlHead('tailorfit home')}">
+<head th:replace="~{layout/fragments :: htmlHead('tailorfit home')}">
 </head>
 <body>
-	<th:block th:replace="~{/layout/fragments :: pageHeader}"></th:block>
+	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
 	<section class="hero">
 		<div class="hero-container">
 			<div class="column-left">
@@ -35,7 +35,7 @@
 	<a th:href="@{/activities/sharedlist}">퍼블릭 활동목록!</a>
 	<a th:href="@{/activities/mydashboard}">내 대쉬보드, 트레이너와 활동영역</a>
 
-	<th:block th:replace="~{/layout/fragments :: pageFooter}"></th:block>
-	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
+	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 </body>
 </html>
