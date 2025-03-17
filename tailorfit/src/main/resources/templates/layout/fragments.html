@@ -25,7 +25,7 @@
 		<nav>
 			<div class="logo">TailorFit</div>
 			<div class="nav-items">
-				<a href="/">Home</a> <a href="/">Public Space</a> <a href="/">My
+				<a href="/">Home</a> <a href="/">Public Space</a> <a th:href="@{/activities/mylist}">My
 					Records</a> <a href="/">My DashBoard</a>
 				<th:block sec:authorize="isAnonymous()">
 					<a th:href="@{/member/signin}">Login</a>
