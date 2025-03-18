@@ -63,26 +63,30 @@ document.addEventListener('DOMContentLoaded', () => {
 		let htmlStr = '';
 		for (const comment of content) {
 			htmlStr += `
-	            <div class="mt-2 card card-body">
-	              <div class="mt-2">
-	                <span class="fw-bold">${comment.nickname}</span>
-	                <span class="text-secondary">${comment.modifiedTime}</span>
-	             </div>
-	            <div class="mt-2">
-	               <div class="mt-2">
-	                 <textarea class="commentText form-control" data-id="${comment.id}">${comment.content}</textarea>
-	               </div>`;
+			    <div class="mt-3 card shadow-sm border-0" style="border-radius: 15px; background-color: #f8f9fa;">
+			        <div class="card-body">
+			            <div class="d-flex justify-content-between align-items-center">
+			                <span class="fw-bold text-primary">👤 ${comment.nickname}</span>
+			                <span class="text-secondary small">🕒 ${comment.modifiedTime}</span>
+			            </div>
+			            <div class="mt-2">
+			                <textarea class="commentText form-control" data-id="${comment.id}" 
+			                          style="border-radius: 10px; background-color: #ffffff;">${comment.content}</textarea>
+			            </div>`;
 
 			if (authUser == comment.username) {
-				htmlStr += ` <div class="mt-2">
-	                                <button class="btnDeleteComment btn btn-outline-danger" data-id="${comment.id}">삭제</button>
-	                                <button class="btnUpdateComment btn btn-outline-primary" data-id="${comment.id}">수정</button>
-	                              </div>`;
+			    htmlStr += `
+			        <div class="mt-3 d-flex justify-content-end">
+			            <button class="btnDeleteComment btn btn-outline-danger me-2 " 
+			                    data-id="${comment.id}" style="border-radius: 10px;">🗑 삭제</button>
+			            <button class="btnUpdateComment btn btn-outline-primary " 
+			                    data-id="${comment.id}" style="border-radius: 10px;">✏ 수정</button>
+			        </div>`;
 			}
+
 			htmlStr += `
-	            </div>
-	            </div>
-	            `;
+			        </div>
+			    </div>`;
 		}
 		if (page.number == 0) {
 			//페이지가 0인 댓글목록을 가져왔을 때

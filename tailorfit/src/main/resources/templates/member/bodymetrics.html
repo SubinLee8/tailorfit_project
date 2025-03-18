@@ -17,23 +17,24 @@
 </style>
 </head>
 <body>
+	<th:block th:replace="~{/layout/fragments :: pageHeader}"></th:block>
 	<main>
 		<div class="container mt-5">
 			<h2>회원가입 추가 정보 입력</h2>
 			<form id="addBodyMetrics" method="post">
 				<!--몸무게와 키 -->
 				<div class="form-step">
-					<input type="text" class="form-control d-none" id="username" name="username"
-						th:value="${#authentication.name}">
+					<input type="text" class="form-control d-none" id="username"
+						name="username" th:value="${#authentication.name}">
 					<div class="mb-3">
 						<label for="weight" class="form-label">몸무게 (kg)</label> <input
-							type="number" name="weight" class="form-control" id="weight" min="20" max="200"
-							required>
+							type="number" name="weight" class="form-control" id="weight"
+							min="20" max="200" required>
 					</div>
 					<div class="mb-3">
 						<label for="height" class="form-label">키 (cm)</label> <input
-							type="number" name="height" class="form-control" id="height" min="100"
-							max="250" required>
+							type="number" name="height" class="form-control" id="height"
+							min="100" max="250" required>
 					</div>
 					<button type="submit" class="btn btn-success">가입 완료</button>
 
@@ -56,6 +57,7 @@
 
 
 	</main>
+	<th:block th:replace="~{/layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

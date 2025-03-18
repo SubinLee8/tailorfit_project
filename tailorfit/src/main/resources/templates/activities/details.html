@@ -3,9 +3,10 @@
 <head th:replace="~{/layout/fragments :: htmlHead('My Workout Lists')}">
 </head>
 <body>
+	<th:block th:replace="~{/layout/fragments :: pageHeader}"></th:block>
 	<main>
 		<div class="mt-2 centered-form" th:object="${record}">
-			<div class="card" style="width: 100%; max-width: 500px;">
+			<div class="card" style="width: 100%; max-width: 800px;">
 				<!-- 제목과 운동 유형 -->
 				<div class="card-title" th:text="*{title}"></div>
 				<div class="card-subtitle" th:text="*{workoutType}"></div>
@@ -15,42 +16,50 @@
 					th:attr="data-lat=*{startLat}, data-lng=*{startLng}"
 					style="width: 300px; height: 200px;"></div>
 
-				<!-- 운동 정보 -->
 				<div class="card-details">
 					<p class="d-none">
 						<strong>아이디:</strong> <span id="id" th:text="*{id}"></span>
 					</p>
 					<p>
 						<strong>닉네임:</strong> <span id="nickname"
-							th:text="*{member.nickname}"></span>
+							th:text="*{member.nickname}"></span> <i
+							class="bi bi-person-circle ms-2"></i>
 					</p>
 					<p>
-						<strong>운동 날짜:</strong> <span th:text="*{workoutDate}"></span>
+						<strong>운동 날짜:</strong> <span th:text="*{workoutDate}"></span> <i
+							class="bi bi-calendar-date ms-2"></i>
 					</p>
 					<p>
-						<strong>국가:</strong> <span th:text="*{country}"></span>
+						<strong>국가:</strong> <span th:text="*{country}"></span> <i
+							class="bi bi-flag ms-2"></i>
 					</p>
 					<p>
 						<strong>운동 시간:</strong> <span th:text="*{workoutDuration}"></span>
-						초
+						초 <i class="bi bi-clock ms-2"></i>
 					</p>
 					<p>
-						<strong>거리:</strong> <span th:text="*{distance}"></span> m
+						<strong>거리:</strong> <span th:text="*{distance}"></span> m <i
+							class="bi bi-ruler ms-2"></i>
 					</p>
 					<p>
-						<strong>평균 속도:</strong> <span th:text="*{avgSpeed}"></span> km/h
+						<strong>평균 속도:</strong> <span th:text="*{avgSpeed}"></span> km/h <i
+							class="bi bi-speedometer ms-2"></i>
 					</p>
 					<p>
 						<strong>소모 칼로리:</strong> <span th:text="*{caloriesBurned}"></span>
-						kcal
+						kcal <i class="bi bi-flame ms-2"></i>
 					</p>
 					<p>
-						<strong>좋아요 수:</strong> <span th:text="*{likeCount}"></span>
+						<strong>좋아요 수:</strong> <span th:text="*{likeCount}"></span> <i
+							class="bi bi-heart ms-2"></i>
 					</p>
 					<p>
-						<strong>비공개 여부:</strong> <span th:text="*{isPrivate}"></span>
+						<strong>비공개 여부:</strong> <span th:text="*{isPrivate}"></span> <i
+							class="bi bi-eye-slash ms-2"></i>
 					</p>
-					<button class="btn" id="btnLike">좋아요</button>
+					<button class="btn btn-outline-primary" id="btnLike">
+						<i class="bi bi-hand-thumbs-up"></i> 좋아요
+					</button>
 				</div>
 				<div class="card-footer"
 					th:if="*{member.username eq #authentication.name}">
@@ -60,36 +69,38 @@
 				</div>
 			</div>
 		</div>
-		<div class="centered-form">
-			<div class="card" style="width: 100%; max-width: 500px;">
-				<div class="card-body">
-
-					<div class="d-none" id="username" th:text="*{#authentication.name}"></div>
-					<div class="mb-3">
-						<textarea class="form-control" id="content" name="content"
-							rows="4" placeholder="댓글을 작성하세요..." required></textarea>
-					</div>
-					<div class="mb-3">
-						<button id="btnCreate" class="btn btn-primary w-100">댓글
-							작성</button>
-					</div>
-
+		<div class="mt-3 card shadow-sm border-0"
+			style="border-radius: 15px; background-color: #f8f9fa; width: 750px;">
+			<div class="card-body">
+				<div class="d-none" id="username" th:text="*{#authentication.name}"></div>
+				<textarea class="form-control" id="content" name="content" rows="4"
+					placeholder="💬 당신의 생각을 남겨주세요!" required
+					style="border-radius: 12px; background-color: white;"></textarea>
+				<div class="mb-3 d-flex justify-content-end">
+					<button id="btnCreate" class="btn btn-primary"
+						style="font-size: 1.1rem; border-radius: 12px;">🚀 댓글 작성</button>
 				</div>
 			</div>
 		</div>
-		<div class="centered-form">
-			<!-- 댓글 목록 -->
-			<div class="mt-2" style="width: 100%; max-width: 500px;"
-				id="divComments"></div>
+
+		<!-- 댓글 목록 -->
+		<div class="mt-2"
+			style="width: 100%; max-width: 800px; border-radius: 15px; padding: 10px;"
+			id="divComments">
+			<p class="text-center text-muted">💡 아직 댓글이 없습니다. 첫 댓글을 남겨보세요! 📝</p>
 		</div>
+
+
 		<div class="centered-form">
 			<!-- 댓글 목록 페이지 더보기 버튼 -->
 			<div class="mt-2 d-flex justify-content-center" id="divMore">
-				<button class="btn btn-outline-secondary" id="btnMore">더보기</button>
+				<button class="btn btn-outline-secondary px-4 py-2" id="btnMore"
+					style="font-size: 1rem; border-radius: 10px;">🔽 더보기</button>
 			</div>
-
 		</div>
+
 	</main>
+	<th:block th:replace="~{/layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
