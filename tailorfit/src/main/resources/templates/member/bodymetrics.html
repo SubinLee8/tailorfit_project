@@ -21,6 +21,8 @@
 	<main>
 		<div class="container mt-5">
 			<h2>회원가입 추가 정보 입력</h2>
+			<div class="mt-2 text-danger" th:if="${param.firsttry}">이메일 인증이
+				완료됐습니다 !! 신체정보를 입력한 후 My Records 페이지 이용이 가능합니다.</div>
 			<form id="addBodyMetrics" method="post">
 				<!--몸무게와 키 -->
 				<div class="form-step">

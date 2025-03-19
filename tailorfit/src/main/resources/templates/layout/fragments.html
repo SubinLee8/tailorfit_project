@@ -71,8 +71,10 @@
 					data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			</div>
 			<div class="offcanvas-body">
-				<a href="/">My Page</a> </br> <a href="/">My Athletes</a> </br> <a href="/">Update
-					Bodymetrics</a>
+				<a class="no-link mt-4" th:href="@{/stravaauth/login}">스트라바 연결하기</a></br>
+				<a class="no-link mt-4" th:href="@{/member/bodymetrics}">Update
+					Bodymetrics</a></br> <a class="no-link mt-4"
+					th:href="@{/trainer/myathletes}">내선수목록</a> </br>
 			</div>
 
 		</div>

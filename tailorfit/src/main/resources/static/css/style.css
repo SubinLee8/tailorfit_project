@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+.no-link {
+	text-decoration: none; /* 밑줄 제거 */
+	color: inherit; /* 텍스트 색상을 부모 요소와 같게 */
+	cursor: pointer; /* 마우스 커서를 클릭 가능한 모양으로 변경 */
+	margin-top: 5px;
+}
+
 .new-record-container {
 	display: flex;
 	justify-content: flex-end;

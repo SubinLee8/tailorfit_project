@@ -11,7 +11,9 @@
 				<h1>Get Personalized Workout Routines</h1>
 				<p>Sync with Strava to track your workout progress and consult
 					with trainers for expert advice. Start your fitness journey today!</p>
-				<button>Get Started</button>
+				<a th:href="@{/member/signup}">
+					<button>Get Started</button>
+				</a>
 			</div>
 			<div class="column-right">
 				<img src="/images/image-1.svg" alt="illustration
@@ -20,20 +22,6 @@
 			</div>
 		</div>
 	</section>
-	<th:block sec:authorize="isAnonymous()">
-		<a th:href="@{/member/signin}">로그인</a>
-	</th:block>
-	<th:block sec:authorize="isAuthenticated()">
-		<a th:href="@{/logout}">로그아웃!</a>
-	</th:block>
-
-	<a th:href="@{/stravaauth/login}">스트라바 연결하기</a>
-	<a th:href="@{/member/bodymetrics}">건강정보 입력하기</a>
-
-	<a th:href="@{/activities/mylist}">내 활동목록</a>
-	<a th:href="@{/trainer/myathletes}">내선수목록</a>
-	<a th:href="@{/activities/sharedlist}">퍼블릭 활동목록</a>
-	<a th:href="@{/activities/mydashboard}">내 대쉬보드, 트레이너와 활동영역</a>
 
 	<th:block th:replace="~{/layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
