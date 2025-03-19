@@ -80,7 +80,7 @@ public class ActivitiesController {
 		}
 		WorkoutRecordItemDto record = workoutService.readById(id);
 		model.addAttribute("record", record);
-		return "/activities/details";
+		return "activities/details";
 	}
 
 	@GetMapping("/modify")

@@ -59,7 +59,7 @@ public class MemberController {
 		log.info("memberSignupdto={}", dto);
 		memberService.createMember(dto, request);
 		// unverified 페이지로 이동하게 수정
-		return "/member/unverified";
+		return "member/unverified";
 	}
 
 	@PreAuthorize("hasRole('GUEST')")
