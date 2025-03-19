@@ -113,11 +113,6 @@ public class ActivitiesController {
 		List<Integer> runningTimes = workoutService.getWeeklyDuration(id, "Run");
 		List<Integer> walkings = workoutService.getWeeklyDuration(id, "Walk");
 		List<Integer> stretchings = workoutService.getWeeklyDuration(id, "Stretch");
-
-		Integer[] weightsArray = weights.toArray(new Integer[0]);
-		Integer[] runningTimesArray = runningTimes.toArray(new Integer[0]);
-		Integer[] walkingsArray = walkings.toArray(new Integer[0]);
-		Integer[] stretchingsArray = stretchings.toArray(new Integer[0]);
 		
 		model.addAttribute("runningRoutine", runningRoutine);
 		model.addAttribute("walkingRoutine", walkingRoutine);

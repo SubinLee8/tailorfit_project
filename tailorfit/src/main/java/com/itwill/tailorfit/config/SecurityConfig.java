@@ -21,7 +21,7 @@ public class SecurityConfig {
 						"/member/signup")
 				.permitAll() // 논 유저도 접근 허용
 				.requestMatchers("/member/bodymetrics", "/activities/sharedlist").hasRole("GUEST") // 게스트만 접근 허용
-				.requestMatchers("/stravaauth/login", "/activities/mylist", "/activities/mydashboard")
+				.requestMatchers("/stravaauth/login", "/activities/mylist", "/activities/mydashboard", "/activities/create")
 				.hasRole("ATHLETE") // 선수만 접근 가능
 				.requestMatchers("/trainer/myathletes").hasRole("TRAINER") // 트레이너만 접근 가능
 				.anyRequest().authenticated() // 그 외의 요청은 로그인 필요
