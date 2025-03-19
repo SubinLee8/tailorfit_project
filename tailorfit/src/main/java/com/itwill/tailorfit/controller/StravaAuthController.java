@@ -156,8 +156,8 @@ public class StravaAuthController {
 	// Strava의 GET 검증 요청에 응답하는 엔드포인트, 앞으로 사용하지 않는 곳.
 	// SecurityConfig에서 모두 접근 가능하도록 바꿔야함 !!
 	@GetMapping("/subscribe")
-	public ResponseEntity<Map<String, String>> verifyWebhook(@RequestParam("hub.mode") String mode,
-			@RequestParam("hub.verify_token") String verifyToken, @RequestParam("hub.challenge") String challenge) {
+	public ResponseEntity<Map<String, String>> verifyWebhook(@RequestParam(name="hub.mode") String mode,
+			@RequestParam(name="hub.verify_token") String verifyToken, @RequestParam(name="hub.challenge") String challenge) {
 
 		log.info("get 요청 도착! 2분 안에 응답 보내야함");
 		log.info("verifyToken={}", verifyToken);
