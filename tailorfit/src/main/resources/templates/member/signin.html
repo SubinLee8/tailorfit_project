@@ -3,28 +3,33 @@
 <head th:replace="~{layout/fragments::htmlHead('Login')}">
 </head>
 <body>
+	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
 	<main class="mt-2">
 		<div class="card card-body">
-			<form method="post">
+			<form method="post"
+				style="background: white; padding: 20px; border-radius: 8px; border: none; box-shadow: none;">
 				<div class="mt-2 text-danger" th:if="${param.error}">아이디와
 					비밀번호를 확인하세요</div>
 				<div class="mt-2 text-danger" th:if="${param.logout}">로그아웃되었습니다.
 					다시 로그인하세요.</div>
-					<div class="mt-2">
-						<input type="text" class="form-control" name="username" placeholder="아이디"
-						required autofocus />
-					</div>
-					<div class="mt-2">
-						<input type="text" class="form-control" name="password" placeholder="비밀번호"
-						required />
-					</div>
-					<div class="mt-2">
-						<input type="submit" class="btn form-control">
-					</div>
+				<div class="mt-2 text-success" th:if="${param.verified}">이메일
+					인증에 성공했습니다! 로그인하세요.</div>
+				<div class="mt-2">
+					<input type="text" class="form-control" name="username"
+						placeholder="아이디" required autofocus />
+				</div>
+				<div class="mt-2">
+					<input type="password" class="form-control" name="password"
+						placeholder="비밀번호" required />
+				</div>
+				<div class="mt-2">
+					<input type="submit" class="btn form-control" value="로그인">
+				</div>
+				<a th:href="@{/member/signup}" class="form-control btn"> 회원가입 </a>
 			</form>
 		</div>
-
 	</main>
+	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 </body>
 </html>

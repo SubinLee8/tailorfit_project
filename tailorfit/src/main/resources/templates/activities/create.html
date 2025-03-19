@@ -1,92 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/fragments :: htmlHead('My Workout Lists')}">
+<head th:replace="~{layout/fragments :: htmlHead('My Workout Lists')}">
 </head>
 <body>
-	<div class="container mt-4">
-		<h2 class="mb-4">운동 기록 입력</h2>
-		<form th:action="@{/activities/create}" method="post">
-			<!-- 유저아이디 -->
-			<div class="mb-3 d-none">
-				<label for="username" class="form-label">아이디</label> <input
-					type="text" class="form-control" id="username" name="username"
-					th:value="${#authentication.name}">
-			</div>
-			<!-- 제목 -->
-			<div class="mb-3">
-				<label for="title" class="form-label">운동 제목</label> <input
-					type="text" class="form-control" id="title" name="title" required>
-			</div>
+	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
+	<main>
+		<div class="container mt-4">
+			<h2 class="mb-4">🏋️ 운동 기록 입력</h2>
+			<form th:action="@{/activities/create}" method="post">
+				<!-- 유저아이디 (숨김 처리) -->
+				<div class="mb-3 d-none">
+					<label for="username" class="form-label">아이디</label> <input
+						type="text" class="form-control" id="username" name="username"
+						th:value="${#authentication.name}">
+				</div>
 
-			<!-- 운동 날짜 -->
-			<div class="mb-3">
-				<label for="workoutDate" class="form-label">운동 날짜</label> <input
-					type="datetime-local" class="form-control" id="workoutDate"
-					name="workoutDate" required>
-			</div>
+				<!-- 제목 -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">🏋️</span> <input type="text"
+						class="form-control" id="title" name="title" placeholder="운동 제목"
+						required>
+				</div>
 
-			<!-- 국가 -->
-			<div class="mb-3">
-				<label for="country" class="form-label">국가</label> <input
-					type="text" class="form-control" id="country" name="country"
-					required>
-			</div>
+				<!-- 운동 날짜 -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">📅</span> <input type="datetime-local"
+						class="form-control" id="workoutDate" name="workoutDate" required>
+				</div>
 
-			<!-- 운동 유형 -->
-			<div class="mb-3">
-				<label for="workoutType" class="form-label">운동 유형</label> <select
-					class="form-select" id="workoutType" name="workoutType" required>
-					<option value="Run">러닝</option>
-					<option value="Walk">걷기</option>
-				</select>
-			</div>
+				<!-- 국가 -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">🌍</span> <input type="text"
+						class="form-control" id="country" name="country" placeholder="국가"
+						required>
+				</div>
 
-			<!-- 운동 시간 (초) -->
-			<div class="mb-3">
-				<label for="workoutDuration" class="form-label">운동 시간 (초)</label> <input
-					type="number" class="form-control" id="workoutDuration"
-					name="workoutDuration" required>
-			</div>
+				<!-- 운동 유형 -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">🏃</span> <select class="form-select"
+						id="workoutType" name="workoutType" required>
+						<option value="Run">러닝</option>
+						<option value="Walk">걷기</option>
+					</select>
+				</div>
 
-			<!-- 거리 (m) -->
-			<div class="mb-3">
-				<label for="distance" class="form-label">거리 (m)</label> <input
-					type="number" step="0.01" class="form-control" id="distance"
-					name="distance" required>
-			</div>
+				<!-- 운동 시간 (초) -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">⏱️</span> <input type="number"
+						class="form-control" id="workoutDuration" name="workoutDuration"
+						placeholder="운동 시간 (초)" required>
+				</div>
 
-			<!-- 평균 속도 (m/s) -->
-			<div class="mb-3">
-				<label for="avgSpeed" class="form-label">평균 속도 (km/h)</label> <input
-					type="number" step="0.1" class="form-control" id="avgSpeed"
-					name="avgSpeed" required>
-			</div>
+				<!-- 거리 (m) -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">📏</span> <input type="number" step="0.01"
+						class="form-control" id="distance" name="distance"
+						placeholder="거리 (m)" required>
+				</div>
 
-			<!-- 지도에서 좌표 선택 (위도 & 경도) -->
-			<div class="mb-3">
-				<label class="form-label">시작 위치</label>
-				<div id="map" style="width: 100%; height: 300px;"></div>
-				<input type="hidden" id="startLat"> <input type="hidden"
-					id="startLng">
-				<p>
-					클릭한 위치 - 위도: <input id="latDisplay" type="text" name="startLat"
-						required></input>, 경도: <input id="lngDisplay" type="text"
-						name="startLng" required></input>
-				</p>
-			</div>
+				<!-- 평균 속도 (km/h) -->
+				<div class="mb-3 input-container">
+					<span class="input-icon">🚀</span> <input type="number" step="0.1"
+						class="form-control" id="avgSpeed" name="avgSpeed"
+						placeholder="평균 속도 (km/h)" required>
+				</div>
 
-			<!-- 비공개 여부 -->
-			<div class="mb-3 form-check">
-				<input type="checkbox" class="form-check-input" id="isPrivate"
-					name="isPrivate"> <label class="form-check-label"
-					for="isPrivate">비공개</label>
-			</div>
-			<button class="btn btn-primary" id="btnSave">저장</button>
-		</form>
-	</div>
+				<!-- 지도에서 좌표 선택 (위도 & 경도) -->
+				<div class="mb-3">
+					<label class="form-label">🗺️ 시작 위치</label>
+					<div id="map" style="width: 100%; height: 300px;"></div>
+					<input type="hidden" id="startLat"> <input type="hidden"
+						id="startLng">
+					<p>
+						클릭한 위치 - 위도: <input id="latDisplay" type="text" name="startLat"
+							required>, 경도: <input id="lngDisplay" type="text"
+							name="startLng" required>
+					</p>
+				</div>
+
+				<!-- 비공개 여부 -->
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="isPrivate"
+						name="isPrivate"> <label class="form-check-label"
+						for="isPrivate">🔒 비공개</label>
+				</div>
+
+				<!-- 저장 버튼 -->
+				<button class="btn btn-primary" id="btnSave">저장</button>
+			</form>
+		</div>
+	</main>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
-	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
+	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
+	<style>
+/* 입력 필드 아이콘 스타일 */
+.input-container {
+	display: flex;
+	align-items: center;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	padding: 5px 10px;
+	background: #fff;
+}
+
+.input-container .input-icon {
+	font-size: 1.2em;
+	margin-right: 10px;
+}
+
+.input-container input, .input-container select {
+	flex: 1;
+	border: none;
+	outline: none;
+	background: none;
+}
+</style>
 	<script>
 		// 지도 생성
 		var container = document.getElementById('map');

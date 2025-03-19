@@ -35,20 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		let walkReview = '';
 		let stretchReview = '';
 		if (totalRunning / 4 >= runningRoutine) {
-			runReview = `권장 달리기 시간인 ${runningRoutine}(분)보다 많이 달리고 있습니다`;
+		    runReview = `일주일 당 권장 달리기 시간인 <span class="highlight">${runningRoutine}</span>분보다 많이 달리고 있습니다! <span class="emoji">🏃‍♀️💨</span><br>`;
 		} else {
-			runReview = `권장 달리기 시간인 ${runningRoutine}(분)보다 적게 달리고 있습니다`;
+		    runReview = `일주일 당 권장 달리기 시간인 <span class="highlight">${runningRoutine}</span>분보다 적게 달리고 있습니다. <span class="emoji">🏃‍♀️💨</span><br>`;
 		}
 		if (totalWalking / 4 >= walkingRoutine) {
-			walkReview = `권장 걷기 시간인 ${walkingRoutine}(분)보다 많이 걷고 있습니다`;
-		} else {
-			walkReview = `권장 걷기 시간인 ${walkingRoutine}(분)보다 적게 걷고 있습니다`;
-		}
-		if (totalStretching / 4 >= stretchingRoutine) {
-			stretchReview = `권장 스트레칭 시간인 ${stretchingRoutine}(분)보다 많이 스트레칭하고 있습니다`;
-		} else {
-			stretchReview = `권장 스트레칭 시간인 ${stretchingRoutine}(분)보다 적게 스트레칭하고 있습니다`;
-		}
+		        walkReview = `일주일 당 권장 걷기 시간인 <span class="highlight">${walkingRoutine}</span>분보다 많이 걷고 있습니다 <span class="emoji">🚶‍♂️💨</span><br>`;
+		    } else {
+		        walkReview = `일주일 당 권장 걷기 시간인 <span class="highlight">${walkingRoutine}</span>분보다 적게 걷고 있습니다 <span class="emoji negative">🙁</span><br>`;
+		    }
+			if (totalStretching / 4 >= stretchingRoutine) {
+			        stretchReview = `일주일 당 권장 스트레칭 시간인 <span class="highlight">${stretchingRoutine}</span>분보다 많이 스트레칭하고 있습니다 <span class="emoji">🧘‍♀️💪</span><br>`;
+			    } else {
+			        stretchReview = `일주일 당 권장 스트레칭 시간인 <span class="highlight">${stretchingRoutine}</span>분보다 적게 스트레칭하고 있습니다 <span class="emoji negative">🙁</span><br>`;
+			    }
 		review.innerHTML+=runReview;
 		review.innerHTML+=walkReview;
 		review.innerHTML+=stretchReview;
