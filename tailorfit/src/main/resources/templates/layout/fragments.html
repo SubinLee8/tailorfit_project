@@ -79,6 +79,33 @@
 
 		</div>
 	</th:block>
+	
+	 <th:block th:fragment="pagination">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 페이지가 없을 때 'disabled' 클래스 속성을 추가 -->
+                <li class="page-item"
+                    th:classappend="${!page.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                    th:href="@{${baseUrl}(p=${page.number - 1}, category=${param.category}, keyword=${param.keyword})}">이전</a>
+                </li>
+                <!-- 시작값으로부터 1씩 증가 토탈 페이지수가 0일 때, 0부터 -1까지 오류 추가 -->
+                <li class="page-item"
+                    th:classappend="${pageNo==page.number} ? 'active'"
+                    th:each="pageNo : ${#numbers.sequence(0, page.totalPages-1, 1)}"
+                    th:if="${pageNo>=page.number-3 && pageNo<page.number+3}">
+                    <a class="page-link"
+                    th:href="@{${baseUrl}(p=${pageNo}, category=${param.category}, keyword=${param.keyword})}"
+                    th:text="${pageNo + 1}"></a>
+                </li>
+                <li class="page-item"
+                    th:classappend="*{!page.hasNext} ? 'disabled'">
+                    <a class="page-link"
+                    th:href="@{${baseUrl}(p=${page.number + 1}, category=${param.category}, keyword=${param.keyword})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+    </th:block>
 
 	<th:block th:fragment="pageFooter">
 		<footer style="background: #fdcc04; padding: 0;">

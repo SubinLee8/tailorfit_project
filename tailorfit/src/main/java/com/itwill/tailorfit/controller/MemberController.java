@@ -39,7 +39,7 @@ public class MemberController {
 	}
 
 	@GetMapping("/verify")
-	public String verifyUser(@RequestParam String token) {
+	public String verifyUser(@RequestParam("token") String token) {
 		String result = memberService.verifyUser(token);
 		if (result.equals("trainer")) {
 			// verified 페이지로 이동하게 수정

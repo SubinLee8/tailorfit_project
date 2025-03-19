@@ -31,7 +31,7 @@ public class CommentController {
 
 	@GetMapping("/all/{recordId}")
 	public ResponseEntity<PagedModel<CommentItemDto>> getCommentList(@PathVariable Long recordId,
-			@RequestParam(defaultValue = "0") int p) {
+			@RequestParam(defaultValue = "0", name="p") int p) {
 		// 최종 수정 시간의 내림차순으로 정렬된, 한 페이지에 출력할 댓글 목록을 가져옴.
 		Page<CommentItemDto> comments = commentService.readByRecord(recordId, Sort.by("modifiedTime").descending(), p);
 		return ResponseEntity.ok(new PagedModel<>(comments));

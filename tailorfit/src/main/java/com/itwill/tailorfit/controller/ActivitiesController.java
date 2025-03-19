@@ -52,7 +52,7 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/delete")
-	public String deleteActivity(@RequestParam Long id) {
+	public String deleteActivity(@RequestParam("id") Long id) {
 		workoutService.delete(id);
 		return "redirect:/activities/mylist";
 	}
@@ -71,7 +71,7 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/details")
-	public String getMyActivityDetail(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long id,
+	public String getMyActivityDetail(@AuthenticationPrincipal UserDetails userDetails, @RequestParam("id") Long id,
 			Model model) {
 		// 본인 게시글이 아니면 접근 금지
 		String username = userDetails.getUsername();
@@ -84,7 +84,7 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/modify")
-	public void modifyActivity(@RequestParam Long id, Model model) {
+	public void modifyActivity(@RequestParam("id") Long id, Model model) {
 		WorkoutRecordItemDto dto = workoutService.readById(id);
 		log.info("dto={}", dto);
 		model.addAttribute("record", dto);
