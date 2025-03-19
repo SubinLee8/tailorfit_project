@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const runningTimes = JSON.parse(document.getElementById('runningTimes').value);
 	const walkingsTimes = JSON.parse(document.getElementById('walkingsTimes').value);
 	const stretchingsTimes = JSON.parse(document.getElementById('stretchingsTimes').value);
-
+	//const createdTimes = JSON.parse(document.getElementById('createdTimes').value);
 	const totalWalking = walkingsTimes.reduce((sum, value) => sum + value, 0);
 	const totalRunning = runningTimes.reduce((sum, value) => sum + value, 0);
 	const totalStretching = stretchingsTimes.reduce((sum, value) => sum + value, 0);
@@ -30,6 +30,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/*-------------------------------------콜백함수----------------------------------------------------------------- */
 
+	function convertToDaysAgo(createdTimes) {
+		console.log(createdTimes);
+	    if (!Array.isArray(createdTimes)) {
+	        console.error('createdTimes는 배열이어야 합니다.');
+	        return [];
+	    }
+
+	    const now = new Date();
+
+	    return createdTimes.map(timeStr => {
+	        const time = new Date(timeStr); 
+	        const diffTime = now - time; // 밀리초 단위 차이
+	        const daysAgo = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 일 단위 변환
+
+	        return daysAgo === 0 ? "오늘" : `${daysAgo}일 전`;
+	    });
+	}
 	function getReview() {
 		let runReview = '';
 		let walkReview = '';
@@ -134,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const barChart = new Chart(ctxBar, {
 		type: 'bar',
 		data: {
-			labels: ['3 Weeks Ago', '2 Weeks Ago', '1 Week Ago', 'Current'], // 주간 라벨
+			labels: [0,1,2,3],
 			datasets: [{
 				label: '몸무게 변화량 (kg)',
 				data: weights, // 각 주차의 달린 거리
@@ -149,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				x: {
 					title: {
 						display: true,
-						text: '주차'
+						text: '최근'
 					}
 				},
 				y: {

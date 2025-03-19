@@ -18,7 +18,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/", "/member/signin", "/stravaauth/subscribe", "/css/**", "/js/**", "/images/**",
-						"/member/signup")
+						"/member/signup", "/member/**")
 				.permitAll() // 논 유저도 접근 허용
 				.requestMatchers("/member/bodymetrics", "/activities/sharedlist").hasRole("GUEST") // 게스트만 접근 허용
 				.requestMatchers("/stravaauth/login", "/activities/mylist", "/activities/mydashboard", "/activities/create")

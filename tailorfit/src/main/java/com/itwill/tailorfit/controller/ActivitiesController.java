@@ -1,6 +1,8 @@
 package com.itwill.tailorfit.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -52,7 +54,7 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/delete")
-	public String deleteActivity(@RequestParam(name="id") Long id) {
+	public String deleteActivity(@RequestParam(name = "id") Long id) {
 		workoutService.delete(id);
 		return "redirect:/activities/mylist";
 	}
@@ -71,8 +73,8 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/details")
-	public String getMyActivityDetail(@AuthenticationPrincipal UserDetails userDetails, @RequestParam(name="id") Long id,
-			Model model) {
+	public String getMyActivityDetail(@AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(name = "id") Long id, Model model) {
 		// 본인 게시글이 아니면 접근 금지
 		String username = userDetails.getUsername();
 		if (!workoutService.isThisMyRecord(id, username)) {
@@ -84,7 +86,7 @@ public class ActivitiesController {
 	}
 
 	@GetMapping("/modify")
-	public void modifyActivity(@RequestParam(name="id") Long id, Model model) {
+	public void modifyActivity(@RequestParam(name = "id") Long id, Model model) {
 		WorkoutRecordItemDto dto = workoutService.readById(id);
 		log.info("dto={}", dto);
 		model.addAttribute("record", dto);
@@ -109,22 +111,30 @@ public class ActivitiesController {
 		Integer runningRoutine = routine.getRunning();
 		Integer walkingRoutine = routine.getWalking();
 		Integer stretchingRoutine = routine.getStreching();
-		List<Integer> weights = bodyMetricService.getWeeklyWeight(id);
+		// bodyMetricService.getLatestWeights(id)의 반환 값이 Map<String, List<?>>인 경우
+		Map<String, List<?>> latestData = bodyMetricService.getLatestWeights(id);
+
+		// "weights"에 해당하는 데이터를 List<Double>로 캐스팅
+		List<Double> weights = (List<Double>) latestData.get("weights");
+
+		// "createdTimes"에 해당하는 데이터를 List<String>으로 캐스팅
+		List<String> createdTimes = (List<String>) latestData.get("createdTimes");
 		List<Integer> runningTimes = workoutService.getWeeklyDuration(id, "Run");
 		List<Integer> walkings = workoutService.getWeeklyDuration(id, "Walk");
 		List<Integer> stretchings = workoutService.getWeeklyDuration(id, "Stretch");
-		
+
 		model.addAttribute("runningRoutine", runningRoutine);
 		model.addAttribute("walkingRoutine", walkingRoutine);
 		model.addAttribute("stretchingRoutine", stretchingRoutine);
 		model.addAttribute("weights", weights);
+		model.addAttribute("createdTimes", createdTimes);
 		model.addAttribute("runningTimes", runningTimes);
 		model.addAttribute("walkingsTimes", walkings);
 		model.addAttribute("stretchingsTimes", stretchings);
 	}
 
 	@GetMapping("/sharedlist")
-	public void showPublicRecords(@RequestParam(name="p", defaultValue = "0") Integer pageNo, Model model) {
+	public void showPublicRecords(@RequestParam(name = "p", defaultValue = "0") Integer pageNo, Model model) {
 
 		Page<WorkoutRecordItemDto> lists = workoutService.readPublicActivities(pageNo, Sort.by("id").descending());
 		model.addAttribute("page", lists);

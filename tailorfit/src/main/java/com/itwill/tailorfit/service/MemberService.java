@@ -34,7 +34,7 @@ public class MemberService implements UserDetailsService {
 	private final WorkoutRoutineRepository workoutRoutineRepo;
 	private final EmailAuthService emailAuthService;
 	private final EmailAuthRepository emailAuthRepo;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -57,7 +57,7 @@ public class MemberService implements UserDetailsService {
 		String token = UUID.randomUUID().toString();
 
 		// 사용자 정보 생성
-		String ecodedPassword=passwordEncoder.encode(dto.getPassword());
+		String ecodedPassword = passwordEncoder.encode(dto.getPassword());
 		dto.setPassword(ecodedPassword);
 		Member m1 = dto.toEntity();
 		m1.addRole(MemberRole.GUEST);
@@ -65,8 +65,7 @@ public class MemberService implements UserDetailsService {
 
 		// email_auth 테이블에 토큰 추가
 		// role: athlete, both, trainer 중 하나
-		EmailAuth emailAuth = EmailAuth.builder().member(entity).authToken(token).selectedRole(dto.getRole())
-				.build();
+		EmailAuth emailAuth = EmailAuth.builder().member(entity).authToken(token).selectedRole(dto.getRole()).build();
 		emailAuthRepo.save(emailAuth);
 
 		// 이메일발송
@@ -133,6 +132,18 @@ public class MemberService implements UserDetailsService {
 			return 7L; // 고도 비만
 		}
 
+	}
+
+	public boolean isUsernameDuplicate(String username) {
+		return memberRepo.existsByUsername(username);
+	}
+
+	public boolean isNicknameDuplicate(String nickname) {
+		return memberRepo.existsByNickname(nickname);
+	}
+
+	public boolean isEmailDuplicate(String email) {
+		return memberRepo.existsByEmail(email);
 	}
 
 }

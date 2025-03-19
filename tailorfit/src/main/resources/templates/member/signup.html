@@ -9,13 +9,13 @@
 			<h2 class="mb-4">
 				회원가입 <span class="emoji">🎉</span>
 			</h2>
-			<form action="/member/signup" method="post"
-				onsubmit="return validatePassword()">
+			<form action="/member/signup" method="post">
 				<!-- Username -->
 				<div class="mb-3">
 					<label for="username" class="form-label">아이디</label> <input
 						type="text" class="form-control" id="username" name="username"
 						placeholder="아이디를 입력하세요" required>
+					<div id="usernameMessage"></div>
 				</div>
 
 				<!-- Password -->
@@ -32,6 +32,10 @@
 						name="passwordConfirm" placeholder="비밀번호를 한 번 더 입력하세요" required>
 					<small id="passwordHelp" class="form-text text-muted">비밀번호가
 						일치하는지 확인하세요.</small>
+					<div id="passwordMatch" style="color: green; display: none;">비밀번호가
+						일치합니다.</div>
+					<div id="passwordMismatch" style="color: red; display: none;">비밀번호가
+						일치하지 않습니다.</div>
 				</div>
 
 				<!-- Nickname -->
@@ -39,6 +43,7 @@
 					<label for="nickname" class="form-label">닉네임</label> <input
 						type="text" class="form-control" id="nickname" name="nickname"
 						placeholder="닉네임을 입력하세요" required>
+					<div id="nicknameMessage"></div>
 				</div>
 
 				<!-- Email -->
@@ -46,6 +51,7 @@
 					<label for="email" class="form-label">이메일</label> <input
 						type="email" class="form-control" id="email" name="email"
 						placeholder="이메일을 입력하세요" required>
+					<div id="emailMessage"></div>
 				</div>
 
 				<!-- Gender -->
@@ -53,13 +59,13 @@
 					<label class="form-label">성별</label><br>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" id="genderMale"
-							name="gender" value="M"> <label
-							class="form-check-label" for="genderMale">남성</label>
+							name="gender" value="M"> <label class="form-check-label"
+							for="genderMale">남성</label>
 					</div>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" id="genderFemale"
-							name="gender" value="F"> <label
-							class="form-check-label" for="genderFemale">여성</label>
+							name="gender" value="F"> <label class="form-check-label"
+							for="genderFemale">여성</label>
 					</div>
 				</div>
 
@@ -93,25 +99,16 @@
 				</div>
 
 				<!-- Submit Button -->
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" id="submitBtn" disabled
+					class="btn btn-primary">
 					가입하기 <span class="emoji">🎯</span>
 				</button>
 			</form>
 		</div>
 	</main>
-	<script>
-		// 비밀번호 확인 일치 여부 확인
-		function validatePassword() {
-			var password = document.getElementById("password").value;
-			var passwordConfirm = document.getElementById("passwordConfirm").value;
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script th:src="@{/js/member/sign-up.js}"></script>
 
-			if (password !== passwordConfirm) {
-				alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-				return false; // 폼 제출을 막음
-			}
-			return true; // 폼 제출 허용
-		}
-	</script>
 
 	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>

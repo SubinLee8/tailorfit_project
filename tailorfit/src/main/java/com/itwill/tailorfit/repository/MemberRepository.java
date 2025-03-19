@@ -10,4 +10,8 @@ import com.itwill.tailorfit.domain.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	@EntityGraph(attributePaths="roles")
 	Optional<Member> findByUsername(String username);
+	
+	 boolean existsByUsername(String username);
+	 boolean existsByNickname(String nickname);
+	 boolean existsByEmail(String email);
 }

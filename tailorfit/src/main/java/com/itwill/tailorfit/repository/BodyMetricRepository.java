@@ -18,9 +18,7 @@ public interface BodyMetricRepository extends JpaRepository<BodyMetric, Long> {
 	List<BodyMetric> findByMemberLatest(@Param("member") Member member, Pageable pageable);
 
 
-	@Query("SELECT " + "  WEEK(CURRENT_DATE) - WEEK(w.createdTime) AS weekDiff, "
-			+ "  COALESCE(AVG(w.weight), 0) AS avgWeight " + // NULL 방지
-			"FROM BodyMetric w " + "WHERE w.member.id = :userId " + // WHERE 키워드 추가
-			"  AND w.createdTime >= :fourWeeksAgo " + "GROUP BY weekDiff " + "ORDER BY weekDiff ASC") // 정렬 확인 필요
-	List<Object[]> findWeeklyWeight(@Param("userId") Long userId, @Param("fourWeeksAgo") LocalDateTime fourWeeksAgo);
+	@Query("SELECT bm.createdTime, bm.weight FROM BodyMetric bm WHERE bm.member.id = :userId " +
+		       "GROUP BY bm.weight ORDER BY bm.createdTime DESC")
+	List<Object[]> findLatestWeights(@Param("userId") Long userId, Pageable pageable);
 }
