@@ -1,5 +1,24 @@
 @charset "UTF-8";
 
+.chart-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 100%;
+	max-width: 750px; /* 최대 크기 제한 */
+	margin: auto;
+}
+
+.chart-box {
+	width: 100%;
+}
+
+canvas {
+	width: 100% !important; /* 부모 요소에 맞게 자동 조정 */
+	height: auto !important;
+}
+
 .no-link {
 	text-decoration: none; /* 밑줄 제거 */
 	color: inherit; /* 텍스트 색상을 부모 요소와 같게 */

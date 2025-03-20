@@ -1,8 +1,6 @@
 package com.itwill.tailorfit.controller;
 
 import java.net.UnknownHostException;
-import java.net.http.HttpRequest;
-import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -13,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itwill.tailorfit.domain.BodyMetric;
 import com.itwill.tailorfit.dto.BodymetricCreateDto;
 import com.itwill.tailorfit.dto.MemberSignupDto;
 import com.itwill.tailorfit.service.BodyMetricsService;
@@ -61,9 +57,13 @@ public class MemberController {
 
 	@PostMapping("/signup")
 	public String createMember(MemberSignupDto dto, HttpServletRequest request) throws UnknownHostException {
+		long startTime = System.nanoTime(); 
 		log.info("memberSignupdto={}", dto);
 		memberService.createMember(dto, request);
-		// unverified 페이지로 이동하게 수정
+		long endTime = System.nanoTime(); // 종료 시간 기록
+	    long duration = (endTime - startTime) / 1_000_000; // 밀리초 단위 변환
+	    System.out.println("⏱ 회원가입 처리 시간: " + duration + " ms");
+		
 		return "member/unverified";
 	}
 
