@@ -61,6 +61,9 @@ jobs:
             echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> .env
             echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
             echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
+            echo "STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }}" >> .env
+            echo "STRAVA_CLIENT_SECRET=${{ secrets.STRAVA_CLIENT_SECRET }}" >> .env
+            echo "SPRING_MAIL_PASSWORD=${{ secrets.SPRING_MAIL_PASSWORD }}" >> .env
             sudo docker-compose --env-file .env down
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/myapp:latest
             sudo docker-compose --env-file .env up -d
