@@ -32,7 +32,7 @@ jobs:
       - name: Build and test with Gradle
         run: |
           cd ./tailorfit
-          ./gradlew build test
+          ./gradlew build test --info
           ls -al build/libs
 
       - name: Set up Docker login
