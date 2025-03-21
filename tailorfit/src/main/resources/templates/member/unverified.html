@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/layout/fragments::htmlHead('unverified')}">
+<head th:replace="~{layout/fragments::htmlHead('unverified')}">
 </head>
 <body>
-	<th:block th:replace="~{/layout/fragments :: pageHeader}"></th:block>
+	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
 	<main>아직 인증이 되지 않았습니다!</main>
 
-	<th:block th:replace="~{/layout/fragments :: pageFooter}"></th:block>
-	<th:block th:replace="~{/layout/fragments :: bootstrapJS}"></th:block>
+	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
+	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
 </body>
 </html>
