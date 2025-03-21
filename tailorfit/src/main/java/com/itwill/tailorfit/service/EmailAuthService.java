@@ -25,8 +25,7 @@ public class EmailAuthService {
 		int serverPort = request.getLocalPort(); // 서버의 포트 번호
 		String scheme = request.getScheme(); // http 또는 https
 
-		String verificationLink = scheme + "://" + serverIp + ":" + serverPort + request.getContextPath()
-				+ "/member/verify?token=" + verificationToken;
+		String verificationLink = "http://3.39.168.94:8080/member/verify?token=" + verificationToken;
 		String content = "아래 링크를 클릭하면 이메일 인증이 완료됩니다. 다시 로그인해주세요.<br><a href='" + verificationLink + "'>이메일 인증</a>";
 
 		try {

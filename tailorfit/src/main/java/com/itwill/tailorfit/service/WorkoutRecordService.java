@@ -40,6 +40,8 @@ public class WorkoutRecordService {
 			MET = 10.0;
 		} else if (workoutType.equals("Walk")) {
 			MET = 3.5;
+		}else if(workoutType.equals("Stretch")) {
+			MET=2.0;
 		}
 		Double caloriesBurned = MET * weight * duration / 3600 * 5;
 		return caloriesBurned;
@@ -47,7 +49,7 @@ public class WorkoutRecordService {
 
 	@Transactional(readOnly = true)
 	public Page<WorkoutRecordItemDto> readMyActivities(Integer pageNo, Sort sort, String username) {
-		PageRequest pageable = PageRequest.of(pageNo, 10, sort);
+		PageRequest pageable = PageRequest.of(pageNo, 5, sort);
 		Page<WorkoutRecord> records = workoutRepo.findByMemberUsername(username, pageable);
 		return records.map(WorkoutRecordItemDto::fromEntity);
 	}
@@ -114,7 +116,7 @@ public class WorkoutRecordService {
 
 	@Transactional(readOnly = true)
 	public Page<WorkoutRecordItemDto> readPublicActivities(Integer pageNo, Sort sort) {
-		PageRequest pageable = PageRequest.of(pageNo, 10, sort);
+		PageRequest pageable = PageRequest.of(pageNo, 5, sort);
 		Page<WorkoutRecord> records = workoutRepo.findOnlyPublic(pageable);
 		return records.map(WorkoutRecordItemDto::fromEntity);
 	}

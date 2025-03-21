@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwill.tailorfit.domain.Member;
 import com.itwill.tailorfit.dto.BodymetricCreateDto;
 import com.itwill.tailorfit.dto.MemberSignupDto;
+import com.itwill.tailorfit.repository.MemberRepository;
 import com.itwill.tailorfit.service.BodyMetricsService;
 import com.itwill.tailorfit.service.MemberService;
 
@@ -28,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	private final BodyMetricsService bodyMetricService;
 	private final MemberService memberService;
+	private final MemberRepository memberRepo;
 
 	@GetMapping("/signin")
 	public void toLogin() {
@@ -35,8 +40,16 @@ public class MemberController {
 	}
 
 	@GetMapping("/bodymetrics")
-	public void toSetBodyMetrics() {
-
+	public String toSetBodyMetrics(@AuthenticationPrincipal UserDetails userDetails,
+			@RequestParam(value = "firsttry", required = false) String firsttry) {
+		String username = userDetails.getUsername();
+		Member member = memberRepo.findByUsername(username)
+				.orElseThrow(() -> new IllegalArgumentException("User not found"));
+		// 처음 방문했고, 아직 body metrics 설정이 안 되어 있다면 리디렉트
+		if ("N".equals(member.getHasBodyMetrics()) && firsttry == null) {
+			return "redirect:/member/bodymetrics?firsttry";
+		}
+		return "member/bodymetrics";
 	}
 
 	@GetMapping("/verify")
@@ -54,16 +67,21 @@ public class MemberController {
 	public void toSignup(HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
+	
+	@GetMapping("/stravaverified")
+	public void toStravaVerfied() {
+		
+	}
 
 	@PostMapping("/signup")
 	public String createMember(MemberSignupDto dto, HttpServletRequest request) throws UnknownHostException {
-		long startTime = System.nanoTime(); 
+		long startTime = System.nanoTime();
 		log.info("memberSignupdto={}", dto);
 		memberService.createMember(dto, request);
 		long endTime = System.nanoTime(); // 종료 시간 기록
-	    long duration = (endTime - startTime) / 1_000_000; // 밀리초 단위 변환
-	    System.out.println("⏱ 회원가입 처리 시간: " + duration + " ms");
-		
+		long duration = (endTime - startTime) / 1_000_000; // 밀리초 단위 변환
+		System.out.println("⏱ 회원가입 처리 시간: " + duration + " ms");
+
 		return "member/unverified";
 	}
 
@@ -81,7 +99,7 @@ public class MemberController {
 	@PostMapping("/checkUsername")
 	public ResponseEntity<Boolean> checkUsername(@RequestBody Map<String, String> request) {
 		String username = request.get("username");
-		log.info("username={}",username);
+		log.info("username={}", username);
 		boolean isDuplicate = memberService.isUsernameDuplicate(username);
 		log.info("isDuplicateusername: {}", isDuplicate);
 
@@ -90,7 +108,7 @@ public class MemberController {
 
 	@PostMapping("/checkNickname")
 	public ResponseEntity<Boolean> checkNickname(@RequestBody Map<String, String> request) {
-		String nickname=request.get("nickname");
+		String nickname = request.get("nickname");
 		boolean isDuplicate = memberService.isNicknameDuplicate(nickname);
 		log.info("isDuplicatenickname: {}", isDuplicate);
 
@@ -99,7 +117,7 @@ public class MemberController {
 
 	@PostMapping("/checkEmail")
 	public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> request) {
-		String email=request.get("email");
+		String email = request.get("email");
 		boolean isDuplicate = memberService.isEmailDuplicate(email);
 		log.info("isDuplicateemail: {}", isDuplicate);
 

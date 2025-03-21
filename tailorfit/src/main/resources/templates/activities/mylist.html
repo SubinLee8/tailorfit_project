@@ -28,21 +28,20 @@
 					<div class="card-details">
 						<div class="card-detail-item">
 							📅 <span th:text="*{workoutDate}"></span>
-						</div>
-						<div class="card-detail-item">
-							⏳ <span th:text="*{workoutDuration} + '분'"></span>
-						</div>
-						<div class="card-detail-item">
-							🚴‍♂️ <span th:text="*{avgSpeed} + ' km/h'"></span>
-						</div>
-						<div class="card-detail-item">
-							📏 <span th:text="*{distance} + ' km'"></span>
+							<div class="card-detail-item">
+								⏳ <span th:text="*{workoutDuration} + '초'"></span>
+							</div>
+							<div class="card-detail-item">
+								🚴‍♂️ <span th:text="*{avgSpeed} + ' km/h'"></span>
+							</div>
+							<div class="card-detail-item">
+								📏 <span th:text="*{distance} + ' km'"></span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<th:block th:replace="~{layout/fragments :: pagination}"></th:block>
+			<th:block th:replace="~{layout/fragments :: pagination}"></th:block>
 	</main>
 	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>

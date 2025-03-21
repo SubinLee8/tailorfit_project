@@ -52,7 +52,7 @@ public class StravaAuthController {
 
 	@Value("${spring.security.oauth2.client.registration.strava.client-secret}")
 	private String clientSecret;
-	
+
 	@Value("${spring.security.oauth2.client.registration.strava.redirect-uri}")
 	private String redirectonUri;
 
@@ -72,11 +72,12 @@ public class StravaAuthController {
 		member = memberRepo.findByUsername(username).orElseThrow();
 		if (member.getIsConnectedStrava().equals("Y")) {
 			log.info("이미 연결되어있음");
-			return ResponseEntity.ok(null);
+			return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/member/stravaverified").build();
 		}
 		// 권한 명시가 중요하다. activity:read_all 이 핵심
 		String authUrl = "https://www.strava.com/oauth/authorize?client_id=" + clientId
-				+ "&response_type=code&redirect_uri="+redirectonUri+"/stravaauth/callback&approval_prompt=force&scope=read_all,activity:read_all";
+				+ "&response_type=code&redirect_uri=" + redirectonUri
+				+ "/stravaauth/callback&approval_prompt=force&scope=read_all,activity:read_all";
 		// Found이므로 302==get요청을 보내며 요청 Location은 authUrl
 		return ResponseEntity.status(HttpStatus.FOUND).header("Location", authUrl).build();
 	}
@@ -89,12 +90,8 @@ public class StravaAuthController {
 		if (!scope.equals("read,activity:read_all,read_all")) {
 			return "redirect:/";
 		}
-		
-		
-		
 		String url = "https://www.strava.com/oauth/token?client_id=" + clientId + "&client_secret=" + clientSecret
 				+ "&code=" + code + "&grant_type=authorization_code";
-
 		ResponseEntity<String> response = restTemplete.postForEntity(url, null, String.class);
 		String body = response.getBody();
 		String accessToken = objectMapper.readTree(body).get("access_token").asText();
@@ -108,56 +105,54 @@ public class StravaAuthController {
 		LocalDateTime expires_at = LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp),
 				ZoneId.systemDefault());
 		log.info("expires_at={}", expires_at);
-
 		// ownerId찾기
 		Long ownerId = stravaAuthService.findOwnerId(accessToken);
-
 		// 토큰, 만료시간 테이블에 저장
 		stravaAuthService.saveTokens(StravaAuthCreateDto.builder().accessToken(accessToken).refreshToken(refreshToken)
 				.ownerId(ownerId).expiredAt(expires_at).member(member).build());
-
 		// DB 저장
 		stravaAuthService.saveActivities(member, accessToken);
-
 		// 내 기록으로 넘어갈 수 있도록 조정
 		return "redirect:/";
 	}
 
 	// 유저 정보의 업데이트가 있을 때 여기로 옴.
 	@PostMapping("/subscribe")
-	public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent dto) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<String> handleWebhook(@RequestBody WebhookEvent dto)
+			throws JsonMappingException, JsonProcessingException {
 		// create만 받는다.
-		log.info("webhook event={}",dto);
+		log.info("webhook event={}", dto);
 		if (dto.getAspectType().equals("create") && dto.getObjectType().equals("activity")) {
 			// 새로 db에 저장
 			String id = dto.getObjectId().toString();
 			Long ownerId = dto.getOwnerId();
-			
-			//accesstoken 찾기
-			String accessToken=stravaAuthService.findAccessToken(ownerId);
-			
+
+			// accesstoken 찾기
+			String accessToken = stravaAuthService.findAccessToken(ownerId);
+
 			String url = "https://www.strava.com/api/v3/activities/" + id;
 			HttpHeaders headers = new HttpHeaders();
 			headers.set("Authorization", "Bearer " + accessToken);
 			HttpEntity<Object> entity = new HttpEntity<>(headers);
-			ResponseEntity<String> response =restTemplete.exchange(url, HttpMethod.GET, entity, String.class);
+			ResponseEntity<String> response = restTemplete.exchange(url, HttpMethod.GET, entity, String.class);
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode activity = objectMapper.readTree(response.getBody());
-			
-			Member member=stravaAuthService.findMemberByOwnerId(ownerId);
-			stravaAuthService.saveActivity(activity,member);
-			
+
+			Member member = stravaAuthService.findMemberByOwnerId(ownerId);
+			stravaAuthService.saveActivity(activity, member);
+
 			return ResponseEntity.ok("Webhook received successfully! We saved it :) ");
 		}
-		
+
 		return ResponseEntity.ok("Webhook received successfully! But We don't care :) ");
 	}
 
 	// Strava의 GET 검증 요청에 응답하는 엔드포인트, 앞으로 사용하지 않는 곳.
 	// SecurityConfig에서 모두 접근 가능하도록 바꿔야함 !!
 	@GetMapping("/subscribe")
-	public ResponseEntity<Map<String, String>> verifyWebhook(@RequestParam(name="hub.mode") String mode,
-			@RequestParam(name="hub.verify_token") String verifyToken, @RequestParam(name="hub.challenge") String challenge) {
+	public ResponseEntity<Map<String, String>> verifyWebhook(@RequestParam(name = "hub.mode") String mode,
+			@RequestParam(name = "hub.verify_token") String verifyToken,
+			@RequestParam(name = "hub.challenge") String challenge) {
 
 		log.info("get 요청 도착! 2분 안에 응답 보내야함");
 		log.info("verifyToken={}", verifyToken);
