@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(access=AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BodymetricCreateDto {
 	private Double height;
 	private Double weight;
 	private String username;
-	
+	private String first = "N";
+
 	public BodyMetric toEntity(Member member) {
 		return BodyMetric.builder().weight(weight).height(height).member(member).build();
 	}

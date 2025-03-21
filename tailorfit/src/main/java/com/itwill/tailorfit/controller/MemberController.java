@@ -60,17 +60,17 @@ public class MemberController {
 			return "redirect:/member/signin?verified";
 		}
 		// unverified 페이지로 이동하게 수정
-		return "redirect:/member/bodymetrics?firsttry";
+		return "redirect:/member/signin?tobodymetrics";
 	}
 
 	@GetMapping("/signup")
 	public void toSignup(HttpServletRequest request) {
 		request.getSession().invalidate();
 	}
-	
+
 	@GetMapping("/stravaverified")
 	public void toStravaVerfied() {
-		
+
 	}
 
 	@PostMapping("/signup")
@@ -87,11 +87,16 @@ public class MemberController {
 
 	@PreAuthorize("hasRole('GUEST')")
 	@PostMapping("/bodymetrics")
-	public String createBodymetrics(BodymetricCreateDto dto) {
+	public String createBodymetrics(BodymetricCreateDto dto, HttpServletRequest request) {
 		log.info("dto={}", dto);
 		Long id = bodyMetricService.create(dto);
 		// 운동 플랜 변경하기
 		memberService.updatePlan(dto);
+		if (dto.getFirst().equals("Y")) {
+			request.getSession().invalidate();
+			// 로그아웃 후 특정 페이지로 리다이렉트
+			return "redirect:/member/signin";
+		}
 
 		return "redirect:/";
 	}
