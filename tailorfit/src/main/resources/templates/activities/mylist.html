@@ -10,7 +10,8 @@
 				<!-- 검색기능 -->
 			</div>
 			<div class="new-record-container">
-				<a th:href="@{/activities/create}" class="new-record-btn">new record</a>
+				<a th:href="@{/activities/create}" class="new-record-btn">new
+					record</a>
 			</div>
 
 			<div class="mt-2" th:each="page : ${page}" th:object="${page}">
@@ -41,7 +42,8 @@
 					</div>
 				</div>
 			</div>
-			<th:block th:replace="~{layout/fragments :: pagination}"></th:block>
+		</div>
+		<th:block th:replace="~{layout/fragments :: pagination}"></th:block>
 	</main>
 	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>
