@@ -44,7 +44,7 @@ public class ActivitiesController {
 
 	// ATHELTE만 접근 가능
 	@GetMapping("/mylist")
-	public void getMyActivities(@AuthenticationPrincipal UserDetails userDetails,
+	public String getMyActivities(@AuthenticationPrincipal UserDetails userDetails,
 			@RequestParam(name = "p", defaultValue = "0") Integer pageNo, Model model) {
 		String username = userDetails.getUsername();
 		Page<WorkoutRecordItemDto> lists = workoutService.readMyActivities(pageNo, Sort.by("id").descending(),
@@ -52,6 +52,7 @@ public class ActivitiesController {
 		model.addAttribute("page", lists);
 		model.addAttribute("baseUrl", "/activities/mylist");
 		log.info("dto={}", lists);
+		return "activities/sharedlist";
 	}
 
 	@GetMapping("/delete")
