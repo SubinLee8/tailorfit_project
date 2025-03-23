@@ -50,18 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			const response = await axios.post("/member/checkUsername", { username: username });
 			const messageElement = document.getElementById("usernameMessage");
 			if (response.data) {
-				messageElement.textContent = "사용 불가능한 아이디입니다.";
+				messageElement.textContent = "invalid username.";
 				messageElement.style.color = "red";
 				isUsernameValid = false;
 			} else {
-				messageElement.textContent = "사용 가능한 아이디입니다.";
+				messageElement.textContent = "valid username.";
 				messageElement.style.color = "green";
 				isUsernameValid = true;
 			}
 
 			updateSubmitButtonState();
 		} catch (error) {
-			console.error("중복 확인 중 오류 발생:", error);
+			console.error("an error occured while checking validity:", error);
 			isUsernameValid = false;
 			updateSubmitButtonState();
 		}
@@ -75,18 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			const messageElement = document.getElementById("nicknameMessage");
 
 			if (response.data) {
-				messageElement.textContent = "사용 불가능한 닉네임입니다.";
+				messageElement.textContent = "invalid nickname.";
 				messageElement.style.color = "red";
 				isNicknameValid = false;
 			} else {
-				messageElement.textContent = "사용 가능한 닉네임입니다.";
+				messageElement.textContent = "valid nickname.";
 				messageElement.style.color = "green";
 				isNicknameValid = true;
 			}
 
 			updateSubmitButtonState();
 		} catch (error) {
-			console.error("중복 확인 중 오류 발생:", error);
+			console.error("an error occured while checking validity:", error);
 			isNicknameValid = false;
 			updateSubmitButtonState();
 		}
@@ -100,18 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			const messageElement = document.getElementById("emailMessage");
 
 			if (response.data) {
-				messageElement.textContent = "사용 불가능한 이메일입니다.";
+				messageElement.textContent = "invalid email.";
 				messageElement.style.color = "red";
 				isEmailValid = false;
 			} else {
-				messageElement.textContent = "사용 가능한 이메일입니다.";
+				messageElement.textContent = "valid email.";
 				messageElement.style.color = "green";
 				isEmailValid = true;
 			}
 
 			updateSubmitButtonState();
 		} catch (error) {
-			console.error("중복 확인 중 오류 발생:", error);
+			console.error("an error occured while checking validity:", error);
 			isEmailValid = false;
 			updateSubmitButtonState();
 		}

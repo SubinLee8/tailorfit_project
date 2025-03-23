@@ -3,6 +3,7 @@ package com.itwill.tailorfit.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -119,9 +120,14 @@ public class ActivitiesController {
 
 		// "createdTimes"에 해당하는 데이터를 List<String>으로 캐스팅
 		List<String> createdTimes = (List<String>) latestData.get("createdTimes");
-		List<Integer> runningTimes = workoutService.getWeeklyDuration(id, "Run");
-		List<Integer> walkings = workoutService.getWeeklyDuration(id, "Walk");
-		List<Integer> stretchings = workoutService.getWeeklyDuration(id, "Stretch");
+		List<Integer> runningTimes = workoutService.getWeeklyDuration(id, "Run").stream().map(seconds -> seconds / 60)
+				.collect(Collectors.toList());
+
+		List<Integer> walkings = workoutService.getWeeklyDuration(id, "Walk").stream().map(seconds -> seconds / 60)
+				.collect(Collectors.toList());
+
+		List<Integer> stretchings = workoutService.getWeeklyDuration(id, "Stretch").stream()
+				.map(seconds -> seconds / 60).collect(Collectors.toList());
 
 		model.addAttribute("runningRoutine", runningRoutine);
 		model.addAttribute("walkingRoutine", walkingRoutine);

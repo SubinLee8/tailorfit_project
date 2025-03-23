@@ -6,11 +6,11 @@
 	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
 	<main>
 		<div class="container mt-4">
-			<h2 class="mb-4">🏋️ 운동 기록 입력</h2>
+			<h2 class="mb-4">🏋️Upload Workout Records</h2>
 			<form th:action="@{/activities/create}" method="post">
 				<!-- 유저아이디 (숨김 처리) -->
 				<div class="mb-3 d-none">
-					<label for="username" class="form-label">아이디</label> <input
+					<label for="username" class="form-label">username</label> <input
 						type="text" class="form-control" id="username" name="username"
 						th:value="${#authentication.name}">
 				</div>
@@ -18,7 +18,7 @@
 				<!-- 제목 -->
 				<div class="mb-3 input-container">
 					<span class="input-icon">🏋️</span> <input type="text"
-						class="form-control" id="title" name="title" placeholder="운동 제목"
+						class="form-control" id="title" name="title" placeholder="title"
 						required>
 				</div>
 
@@ -31,7 +31,7 @@
 				<!-- 국가 -->
 				<div class="mb-3 input-container">
 					<span class="input-icon">🌍</span> <input type="text"
-						class="form-control" id="country" name="country" placeholder="국가"
+						class="form-control" id="country" name="country" placeholder="country"
 						required>
 				</div>
 
@@ -39,9 +39,9 @@
 				<div class="mb-3 input-container">
 					<span class="input-icon">🏃</span> <select class="form-select"
 						id="workoutType" name="workoutType" required>
-						<option value="Run">러닝</option>
-						<option value="Walk">걷기</option>
-						<option value="Stretch">스트레칭</option>
+						<option value="Run">Run</option>
+						<option value="Walk">Walk</option>
+						<option value="Stretch">Stretch</option>
 					</select>
 				</div>
 
@@ -49,32 +49,32 @@
 				<div class="mb-3 input-container">
 					<span class="input-icon">⏱️</span> <input type="number"
 						class="form-control" id="workoutDuration" name="workoutDuration"
-						placeholder="운동 시간 (초)" required>
+						placeholder="workout duration (sec)" required>
 				</div>
 
 				<!-- 거리 (m) -->
 				<div class="mb-3 input-container">
 					<span class="input-icon">📏</span> <input type="number" step="0.01"
 						class="form-control" id="distance" name="distance"
-						placeholder="거리 (m)" required>
+						placeholder="distance (m)" required>
 				</div>
 
 				<!-- 평균 속도 (km/h) -->
 				<div class="mb-3 input-container">
 					<span class="input-icon">🚀</span> <input type="number" step="0.1"
 						class="form-control" id="avgSpeed" name="avgSpeed"
-						placeholder="평균 속도 (km/h)" required>
+						placeholder="average speed (km/h)" required>
 				</div>
 
 				<!-- 지도에서 좌표 선택 (위도 & 경도) -->
 				<div class="mb-3">
-					<label class="form-label">🗺️ 시작 위치</label>
+					<label class="form-label">🗺️ start point</label>
 					<div id="map" style="width: 100%; height: 300px;"></div>
 					<input type="hidden" id="startLat"> <input type="hidden"
 						id="startLng">
 					<p>
-						클릭한 위치 - 위도: <input id="latDisplay" type="text" name="startLat"
-							required>, 경도: <input id="lngDisplay" type="text"
+						clicked location - lat: <input id="latDisplay" type="text" name="startLat"
+							required>, lng: <input id="lngDisplay" type="text"
 							name="startLng" required>
 					</p>
 				</div>
@@ -83,11 +83,11 @@
 				<div class="mb-3 form-check">
 					<input type="checkbox" class="form-check-input" id="isPrivate"
 						name="isPrivate"> <label class="form-check-label"
-						for="isPrivate">🔒 비공개</label>
+						for="isPrivate">🔒 private</label>
 				</div>
 
 				<!-- 저장 버튼 -->
-				<button class="btn btn-primary" id="btnSave">저장</button>
+				<button class="btn btn-primary" id="btnSave">upload</button>
 			</form>
 		</div>
 	</main>

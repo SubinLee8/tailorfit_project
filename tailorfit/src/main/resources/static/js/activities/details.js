@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	/* --------------------------------------------콜백함수----------------------------------------------- */
 
 	function deleteActivity(event) {
-		const response = confirm(`정말 활동을 삭제하시겠습니까?`);
+		const response = confirm(`delete your record?`);
 		if (response) {
 			location.href = `/activities/delete?id=${recordId}`
 		}
@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			    htmlStr += `
 			        <div class="mt-3 d-flex justify-content-end">
 			            <button class="btnDeleteComment btn btn-outline-danger me-2 " 
-			                    data-id="${comment.id}" style="border-radius: 10px;">🗑 삭제</button>
+			                    data-id="${comment.id}" style="border-radius: 10px;">🗑 delete</button>
 			            <button class="btnUpdateComment btn btn-outline-primary " 
-			                    data-id="${comment.id}" style="border-radius: 10px;">✏ 수정</button>
+			                    data-id="${comment.id}" style="border-radius: 10px;">✏ update</button>
 			        </div>`;
 			}
 
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	async function deleteComment(event) {
 		//        console.log(event.target);
-		const check = confirm('정말 삭제할까요?');
+		const check = confirm('delete?');
 		if (!check) {
 			return;
 		}
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		try {
 			const response = await axios.delete(uri);
 			console.log(`deleted comment id = ${response.data}`);
-			alert('댓글이 삭제됐습니다.');
+			alert('your comment is deleted.');
 			getAllComments(0);
 		} catch (error) {
 			console.log(error);
@@ -136,11 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		const content = text.value;
 
 		if (content.trim() === '') {
-			alert('댓글 내용은 반드시 입력해야 합니다.');
+			alert('there are no texts yet.');
 			return;
 		}
 
-		const check = confirm('수정된 내용으로 변경할까요?');
+		const check = confirm('update?');
 		if (!check) {
 			return;
 		}
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		try {
 			const response = await axios.put(`/api/comment/${id}`, { id, content });
 			console.log(response);
-			alert('댓글이 수정되었습니다.');
+			alert('your comment is updated.');
 			getAllComments(0);
 		}
 		catch (error) {
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const username = document.querySelector('#username').innerHTML;
 
 		if (content.trim() === '') {
-			alert('댓글 내용은 반드시 입력해야 합니다.');
+			alert('there are no texts yet.');
 			return;
 		}
 

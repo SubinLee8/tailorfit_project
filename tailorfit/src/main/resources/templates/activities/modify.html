@@ -6,7 +6,7 @@
 	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
 	<main>
 		<div class="container mt-4" th:object="${record}">
-			<h2 class="mb-4">🏋️ 운동 기록 수정</h2>
+			<h2 class="mb-4">🏋️ edit your workout record</h2>
 			<form th:action="@{/activities/modify}" method="post">
 				<!-- 글 아이디 (숨김 처리) -->
 				<input type="hidden" id="id" name="id" th:value="*{id}"> <input
@@ -37,8 +37,9 @@
 				<div class="mb-3 input-container">
 					<span class="input-icon">🏃</span> <select class="form-select"
 						id="workoutType" name="workoutType" required>
-						<option value="Run" th:selected="*{workoutType} == 'Run'">러닝</option>
-						<option value="Walk" th:selected="*{workoutType} == 'Walk'">걷기</option>
+						<option value="Run" th:selected="*{workoutType} == 'Run'">Run</option>
+						<option value="Walk" th:selected="*{workoutType} == 'Walk'">Walk</option>
+						<option value="Stretch" th:selected="*{workoutType} == 'Stretch'">Stretch</option>
 					</select>
 				</div>
 
@@ -65,11 +66,11 @@
 
 				<!-- 지도에서 좌표 선택 (위도 & 경도) -->
 				<div class="mb-3">
-					<label class="form-label">🗺️ 시작 위치</label>
+					<label class="form-label">🗺️ start point</label>
 					<div id="map" style="width: 100%; height: 300px;"></div>
 					<p>
-						클릭한 위치 - 위도: <input id="latDisplay" type="text" name="startLat"
-							th:value="*{startLat}" required>, 경도: <input
+						clicked location - lat: <input id="latDisplay" type="text" name="startLat"
+							th:value="*{startLat}" required>, lng: <input
 							id="lngDisplay" type="text" name="startLng"
 							th:value="*{startLng}" required>
 					</p>
@@ -79,10 +80,10 @@
 				<div class="mb-3 form-check">
 					<input type="checkbox" class="form-check-input" id="isPrivate"
 						th:checked="*{isPrivate} == 'Y'" name="isPrivate"> <label
-						class="form-check-label" for="isPrivate">🔒 비공개</label>
+						class="form-check-label" for="isPrivate">🔒 private</label>
 				</div>
 
-				<button class="btn btn-primary" id="btnSave">저장</button>
+				<button class="btn btn-primary" id="btnSave">save</button>
 			</form>
 		</div>
 	</main>

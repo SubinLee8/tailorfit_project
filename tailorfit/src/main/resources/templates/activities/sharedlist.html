@@ -10,7 +10,7 @@
 				<!-- 검색기능 -->
 			</div>
 			<div class="new-record-container">
-				<a th:href="@{/activities/create}" class="new-record-btn">새 기록</a>
+				<a th:href="@{/activities/create}" class="new-record-btn">new record</a>
 			</div>
 
 			<div class="mt-2" th:each="page : ${page}" th:object="${page}">
@@ -30,7 +30,7 @@
 							📅 <span th:text="*{workoutDate}"></span>
 						</div>
 						<div class="card-detail-item">
-							⏳ <span th:text="*{workoutDuration} + '초'"></span>
+							⏳ <span th:text="*{workoutDuration} + 'sec'"></span>
 						</div>
 						<div class="card-detail-item">
 							🚴‍♂️ <span th:text="*{avgSpeed} + ' km/h'"></span>

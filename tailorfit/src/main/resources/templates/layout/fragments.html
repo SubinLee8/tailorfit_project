@@ -71,10 +71,9 @@
 					data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			</div>
 			<div class="offcanvas-body">
-				<a class="no-link mt-4" th:href="@{/stravaauth/login}">스트라바 연결하기</a></br>
+				<a class="no-link mt-4" th:href="@{/stravaauth/login}">Connect to Strava</a></br>
 				<a class="no-link mt-4" th:href="@{/member/bodymetrics}">Update
-					Bodymetrics</a></br> <a class="no-link mt-4"
-					th:href="@{/trainer/myathletes}">내선수목록</a> </br>
+					Bodymetrics</a></br> 
 			</div>
 
 		</div>
@@ -87,7 +86,7 @@
                 <li class="page-item"
                     th:classappend="${!page.hasPrevious} ? 'disabled'">
                     <a class="page-link"
-                    th:href="@{${baseUrl}(p=${page.number - 1}, category=${param.category}, keyword=${param.keyword})}">이전</a>
+                    th:href="@{${baseUrl}(p=${page.number - 1}, category=${param.category}, keyword=${param.keyword})}"><<</a>
                 </li>
                 <!-- 시작값으로부터 1씩 증가 토탈 페이지수가 0일 때, 0부터 -1까지 오류 추가 -->
                 <li class="page-item"
@@ -101,7 +100,7 @@
                 <li class="page-item"
                     th:classappend="*{!page.hasNext} ? 'disabled'">
                     <a class="page-link"
-                    th:href="@{${baseUrl}(p=${page.number + 1}, category=${param.category}, keyword=${param.keyword})}">다음</a>
+                    th:href="@{${baseUrl}(p=${page.number + 1}, category=${param.category}, keyword=${param.keyword})}">>></a>
                 </li>
             </ul>
         </div>

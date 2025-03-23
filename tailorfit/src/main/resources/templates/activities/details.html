@@ -18,54 +18,54 @@
 
 				<div class="card-details">
 					<p class="d-none">
-						<strong>아이디:</strong> <span id="id" th:text="*{id}"></span>
+						<strong>record id:</strong> <span id="id" th:text="*{id}"></span>
 					</p>
 					<p>
-						<strong>닉네임:</strong> <span id="nickname"
+						<strong>nickname:</strong> <span id="nickname"
 							th:text="*{member.nickname}"></span> <i
 							class="bi bi-person-circle ms-2"></i>
 					</p>
 					<p>
-						<strong>운동 날짜:</strong> <span th:text="*{workoutDate}"></span> <i
+						<strong>date:</strong> <span th:text="*{workoutDate}"></span> <i
 							class="bi bi-calendar-date ms-2"></i>
 					</p>
 					<p>
-						<strong>국가:</strong> <span th:text="*{country}"></span> <i
+						<strong>country:</strong> <span th:text="*{country}"></span> <i
 							class="bi bi-flag ms-2"></i>
 					</p>
 					<p>
-						<strong>운동 시간:</strong> <span th:text="*{workoutDuration}"></span>
-						초 <i class="bi bi-clock ms-2"></i>
+						<strong>duration:</strong> <span th:text="*{workoutDuration}"></span>
+						sec <i class="bi bi-clock ms-2"></i>
 					</p>
 					<p>
-						<strong>거리:</strong> <span th:text="*{distance}"></span> m <i
+						<strong>distance:</strong> <span th:text="*{distance}"></span> m <i
 							class="bi bi-ruler ms-2"></i>
 					</p>
 					<p>
-						<strong>평균 속도:</strong> <span th:text="*{avgSpeed}"></span> km/h <i
+						<strong>average speed:</strong> <span th:text="*{avgSpeed}"></span> km/h <i
 							class="bi bi-speedometer ms-2"></i>
 					</p>
 					<p>
-						<strong>소모 칼로리:</strong> <span th:text="*{caloriesBurned}"></span>
+						<strong>calories:</strong> <span th:text="*{caloriesBurned}"></span>
 						kcal <i class="bi bi-flame ms-2"></i>
 					</p>
 					<p>
-						<strong>좋아요 수:</strong> <span th:text="*{likeCount}"></span> <i
+						<strong>like:</strong> <span th:text="*{likeCount}"></span> <i
 							class="bi bi-heart ms-2"></i>
 					</p>
 					<p>
-						<strong>비공개 여부:</strong> <span th:text="*{isPrivate}"></span> <i
+						<strong>is it private:</strong> <span th:text="*{isPrivate}"></span> <i
 							class="bi bi-eye-slash ms-2"></i>
 					</p>
 					<button class="btn btn-outline-primary" id="btnLike">
-						<i class="bi bi-hand-thumbs-up"></i> 좋아요
+						<i class="bi bi-hand-thumbs-up"></i> like
 					</button>
 				</div>
 				<div class="card-footer"
 					th:if="*{member.username eq #authentication.name}">
 					<a th:href="@{/activities/modify(id=*{id})}"
-						class="btn btn-primary" id="btnModify">수정</a> <a
-						class="btn btn-danger" id="btnDelete">삭제</a>
+						class="btn btn-primary" id="btnModify">edit</a> <a
+						class="btn btn-danger" id="btnDelete">delete</a>
 				</div>
 			</div>
 		</div>
@@ -74,11 +74,11 @@
 			<div class="card-body">
 				<div class="d-none" id="username" th:text="*{#authentication.name}"></div>
 				<textarea class="form-control" id="content" name="content" rows="4"
-					placeholder="💬 당신의 생각을 남겨주세요!" required
+					placeholder="💬 leave your comment!" required
 					style="border-radius: 12px; background-color: white;"></textarea>
 				<div class="mb-3 d-flex justify-content-end">
 					<button id="btnCreate" class="btn btn-primary"
-						style="font-size: 1.1rem; border-radius: 12px;">🚀 댓글 작성</button>
+						style="font-size: 1.1rem; border-radius: 12px;">🚀 comment create</button>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@
 		<div class="mt-2"
 			style="width: 100%; max-width: 800px; border-radius: 15px; padding: 10px;"
 			id="divComments">
-			<p class="text-center text-muted">💡 아직 댓글이 없습니다. 첫 댓글을 남겨보세요! 📝</p>
+			<p class="text-center text-muted">💡 No comments yet. leave your first comment! 📝</p>
 		</div>
 
 
@@ -95,7 +95,7 @@
 			<!-- 댓글 목록 페이지 더보기 버튼 -->
 			<div class="mt-2 d-flex justify-content-center" id="divMore">
 				<button class="btn btn-outline-secondary px-4 py-2" id="btnMore"
-					style="font-size: 1rem; border-radius: 10px;">🔽 더보기</button>
+					style="font-size: 1rem; border-radius: 10px;">🔽 more</button>
 			</div>
 		</div>
 
