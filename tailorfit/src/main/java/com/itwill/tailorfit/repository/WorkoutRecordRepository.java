@@ -21,13 +21,14 @@ public interface WorkoutRecordRepository extends JpaRepository<WorkoutRecord, Lo
 
 	List<WorkoutRecord> findByMember(Member member);
 
-	@Query("SELECT " + "  WEEK(CURRENT_DATE) - WEEK(w.workoutDate) AS weekDiff, "
-			+ "  SUM(w.workoutDuration) AS totalDuration " + "FROM WorkoutRecord w " + "WHERE w.workoutType = :workoutType "
-			+ "  AND w.member.id = :userId " + "  AND w.workoutDate >= :fourWeeksAgo " + // 날짜 파라미터 추가
-			"GROUP BY weekDiff " + "ORDER BY weekDiff ASC")
+	@Query(value = "SELECT " + "  TIMESTAMPDIFF(WEEK, w.workout_date, CURRENT_DATE) AS weekDiff, "
+			+ "  SUM(w.workout_duration) AS totalDuration " + "FROM workout_records w "
+			+ "WHERE w.workout_type = :workoutType " + "  AND w.user_id = :userId "
+			+ "  AND w.workout_date >= :fourWeeksAgo " + "GROUP BY weekDiff " + "HAVING weekDiff BETWEEN 0 AND 3 "
+			+ "ORDER BY weekDiff ASC", nativeQuery = true) 
 	List<Object[]> findWeeklyRunDuration(@Param("userId") Long userId,
 			@Param("fourWeeksAgo") LocalDateTime fourWeeksAgo, @Param("workoutType") String workoutType);
-	
+
 	@Query("SELECT " + "  WEEK(CURRENT_DATE) - WEEK(w.workoutDate) AS weekDiff, "
 			+ "  SUM(w.workoutDuration) AS totalDuration " + "FROM WorkoutRecord w " + "WHERE w.workoutType = 'Walk' "
 			+ "  AND w.member.id = :userId " + "  AND w.workoutDate >= :fourWeeksAgo " + // 날짜 파라미터 추가

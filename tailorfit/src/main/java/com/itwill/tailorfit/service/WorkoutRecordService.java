@@ -26,7 +26,8 @@ import com.itwill.tailorfit.repository.MemberRepository;
 import com.itwill.tailorfit.repository.WorkoutRecordRepository;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class WorkoutRecordService {
@@ -89,14 +90,17 @@ public class WorkoutRecordService {
 		// DB에서 데이터를 가져옵니다.
 		LocalDateTime fourWeeksAgo = LocalDateTime.now().minusWeeks(4).with(LocalTime.MIN);
 		List<Object[]> results = workoutRepo.findWeeklyRunDuration(userId, fourWeeksAgo, workoutType);
-
+		
 		// 주차별로 값을 저장할 리스트
 		List<Integer> durations = Arrays.asList(0, 0, 0, 0);
 		for (Object[] result : results) {
+			log.info("week result={}",result[0]);
+			log.info("duration result={}",result[1]);
 			int weekDiff = ((Number) result[0]).intValue(); // 안전한 변환
 			int duration = ((Number) result[1]).intValue(); // Long -> int 변환
 
 			int index = 3 - weekDiff;
+			log.info("weekDiff={}",weekDiff);
 			durations.set(index, duration);
 		}
 
