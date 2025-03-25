@@ -78,10 +78,10 @@ public class ActivitiesController {
 	public String getMyActivityDetail(@AuthenticationPrincipal UserDetails userDetails,
 			@RequestParam(name = "id") Long id, Model model) {
 		// 본인 게시글이 아니면 접근 금지
-		String username = userDetails.getUsername();
-		if (!workoutService.isThisMyRecord(id, username)) {
-			return "redirect:/";
-		}
+//		String username = userDetails.getUsername();
+//		if (!workoutService.isThisMyRecord(id, username)) {
+//			return "redirect:/";
+//		}
 		WorkoutRecordItemDto record = workoutService.readById(id);
 		model.addAttribute("record", record);
 		return "activities/details";

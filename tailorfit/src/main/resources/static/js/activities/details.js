@@ -4,19 +4,21 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 	const btnDelete = document.querySelector("#btnDelete");
-	btnDelete.addEventListener('click', deleteActivity);
+	if (btnDelete) {
+		btnDelete.addEventListener('click', deleteActivity);
+	}
 
 	//댓글 더보기 버튼에서 이용
 	let currentPageNo = 0;
 	let totalPageNo = 0;
 	const recordId = document.querySelector('#id').innerText;
-	
+
 	const btnMore = document.querySelector('button#btnMore');
-	    btnMore.addEventListener('click', () => getAllComments(currentPageNo + 1));
+	btnMore.addEventListener('click', () => getAllComments(currentPageNo + 1));
 
 	getAllComments();
-	const btnCreate=document.querySelector("#btnCreate");
-	btnCreate.addEventListener('click',registerComment);
+	const btnCreate = document.querySelector("#btnCreate");
+	btnCreate.addEventListener('click', registerComment);
 
 	/* --------------------------------------------콜백함수----------------------------------------------- */
 
@@ -26,13 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			location.href = `/activities/delete?id=${recordId}`
 		}
 	}
-	
-	
-	
+
+
+
 
 	async function getAllComments(pageNo = 0) {
 		//디폴트: 페이지 번호 0
-		console.log('id='+recordId);
+		console.log('id=' + recordId);
 		const url = `/api/comment/all/${recordId}?p=${pageNo}`;
 		try {
 			//비동기 함수 호출
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				btnMore.classList.add('d-none');
 			}
 			makeCommentElements(data);
+
 		} catch (error) {
 			//에러
 			console.log(error);
@@ -58,6 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		//댓글 목록을 추가할 div요소
 		const divComments = document.querySelector('div#divComments');
+
+		if (!Array.isArray(content) || content.length === 0) {
+			divComments.innerHTML = '<p class="text-center text-muted">💡 No comments yet. leave your first comment! 📝</p>';
+			return;
+		}
 
 		//div에 삽입할 html 문자열
 		let htmlStr = '';
@@ -75,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			            </div>`;
 
 			if (authUser == comment.username) {
-			    htmlStr += `
+				htmlStr += `
 			        <div class="mt-3 d-flex justify-content-end">
 			            <button class="btnDeleteComment btn btn-outline-danger me-2 " 
 			                    data-id="${comment.id}" style="border-radius: 10px;">🗑 delete</button>

@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class EmailAuthService {
 	private JavaMailSender mailSender;
 
 	// 토큰 이메일 전송 서비스
+	@Async
 	public void sendVerificationEmail(String toEmail, String verificationToken, HttpServletRequest request)
 			throws UnknownHostException {
 		String subject = "Tailorfit 회원가입 이메일 인증";
