@@ -11,6 +11,18 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
       - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
       - STRAVA_CLIENT_ID=${STRAVA_CLIENT_ID}
-      - STRAVA_CLIENT_SECRET=${STRAVA_CLIENT_SECRET}
+      - STRAVA_CLIENT_SECRET=${STRAVA_CLIENT_SECRET}  
     volumes:
-      - ./app:/app 
+      - ./app:/app
+    depends_on:
+      - redis  # Redis가 먼저 시작되어야 앱이 시작됨
+  
+  redis:
+    image: "redis:latest"  # Redis 최신 이미지 사용
+    ports:
+      - "6379:6379"  # Redis 기본 포트
+    volumes:
+      - redis-data:/data  # Redis 데이터 저장을 위한 볼륨 설정
+
+volumes:
+  redis-data:
