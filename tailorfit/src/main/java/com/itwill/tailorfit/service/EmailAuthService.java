@@ -19,16 +19,18 @@ public class EmailAuthService {
 
 	// 토큰 이메일 전송 서비스
 	@Async
-	public void sendVerificationEmail(String toEmail, String verificationToken, HttpServletRequest request)
-			throws UnknownHostException {
+	public void sendVerificationEmail(String toEmail, String verificationToken, HttpServletRequest request,
+			String selectedRole) throws UnknownHostException {
 		String subject = "Tailorfit 회원가입 이메일 인증";
 
 		String serverIp = InetAddress.getLocalHost().getHostAddress(); // 서버의 IP 주소
 		int serverPort = request.getLocalPort(); // 서버의 포트 번호
 		String scheme = request.getScheme(); // http 또는 https
 
-		String verificationLink = "http://3.39.168.94:8080/member/verify?token=" + verificationToken;
-		String content = "아래 링크를 클릭하면 이메일 인증이 완료됩니다. 다시 로그인해주세요.<br><a href='" + verificationLink + "'>이메일 인증</a>";
+		String verificationLink = "http://3.39.168.94:8080/member/verify?token=" + verificationToken + "&email="
+				+ toEmail + "&selectedRole=" + selectedRole;
+		String content = "아래 링크를 클릭하면 이메일 인증이 완료됩니다. 10분 안에 다시 로그인해주세요.<br><a href='" + verificationLink
+				+ "'>이메일 인증</a>";
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();

@@ -4,7 +4,19 @@
 </head>
 <body>
 	<th:block th:replace="~{layout/fragments :: pageHeader}"></th:block>
-	<main>Your account is not verified yet!</main>
+	<main>
+		<p>
+			Email: <span th:text="${email}"></span>
+		</p>
+		<p>
+			Selected Role: <span th:text="${selectedRole}"></span>
+		</p>
+		Your account is not verified yet! </br> Verification link is only valid for
+		10 mins unless there's a new verification link already sent. <a
+			class="btn btn-danger mt-2"
+			th:href="@{/member/resendemail(email=${email}, selectedRole=${selectedRole})}">Resend
+			Email</a>
+	</main>
 
 	<th:block th:replace="~{layout/fragments :: pageFooter}"></th:block>
 	<th:block th:replace="~{layout/fragments :: bootstrapJS}"></th:block>

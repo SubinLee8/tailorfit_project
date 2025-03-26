@@ -8,13 +8,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itwill.tailorfit.domain.Member;
+import com.itwill.tailorfit.domain.MemberRole;
 import com.itwill.tailorfit.dto.BodymetricCreateDto;
 import com.itwill.tailorfit.dto.MemberSignupDto;
 import com.itwill.tailorfit.repository.MemberRepository;
@@ -53,14 +57,37 @@ public class MemberController {
 	}
 
 	@GetMapping("/verify")
-	public String verifyUser(@RequestParam(name = "token") String token) {
-		String result = memberService.verifyUser(token);
+	public String verifyUser(@RequestParam(name = "token") String token, @RequestParam(name = "email") String email,
+			@RequestParam(name = "selectedRole") String selectedRole)
+			throws JsonMappingException, JsonProcessingException {
+		if (memberRepo.findByEmail(email).getRoles().contains(MemberRole.GUEST)) {
+			// 이미 이메일 인증이 완료된 유저
+			log.info("게스트");
+			return "redirect:/";
+		}
+		String result = memberService.verifyUser(email, token);
+		log.info("result={}", result);
+		if (result.equals("false")) {
+			// 인증되지 않은 유저
+			log.info("인증 안됨");
+			return "redirect:/member/unverified?email=" + email + "&selectedRole=" + selectedRole;
+
+		}
 		if (result.equals("trainer")) {
 			// verified 페이지로 이동하게 수정
 			return "redirect:/member/signin?verified";
 		}
+
 		// unverified 페이지로 이동하게 수정
 		return "redirect:/member/signin?tobodymetrics";
+	}
+
+	@GetMapping("/resendemail")
+	public String resendEmail(@RequestParam(name = "email") String email, HttpServletRequest request,
+			@RequestParam(name = "selectedRole") String selectedRole)
+			throws JsonProcessingException, UnknownHostException {
+		memberService.resendEmail(email, request, selectedRole);
+		return "redirect:/member/unverified?email=" + email + "&selectedRole=" + selectedRole;
 	}
 
 	@GetMapping("/signup")
@@ -73,8 +100,25 @@ public class MemberController {
 
 	}
 
+	@GetMapping("/unverified")
+	public String unverified(@RequestParam("email") String email, Model model,
+			@RequestParam("selectedRole") String selectedRole) {
+		log.info("roles={}", memberRepo.findByEmail(email).getRoles());
+		if (memberRepo.findByEmail(email).getRoles().contains(MemberRole.GUEST)) {
+			// 이미 이메일 인증이 완료된 유저
+			log.info("게스트");
+			return "redirect:/";
+		}
+		model.addAttribute("email", email);
+		model.addAttribute("selectedRole", selectedRole);
+		log.info("selectedRole={}", selectedRole);
+		log.info("email={}", email);
+		return "member/unverified";
+	}
+
 	@PostMapping("/signup")
-	public String createMember(MemberSignupDto dto, HttpServletRequest request) throws UnknownHostException {
+	public String createMember(MemberSignupDto dto, HttpServletRequest request)
+			throws UnknownHostException, JsonProcessingException {
 		long startTime = System.nanoTime();
 		log.info("memberSignupdto={}", dto);
 		memberService.createMember(dto, request);
@@ -82,7 +126,7 @@ public class MemberController {
 		long duration = (endTime - startTime) / 1_000_000; // 밀리초 단위 변환
 		System.out.println("⏱ 회원가입 처리 시간: " + duration + " ms");
 
-		return "member/unverified";
+		return "redirect:/member/unverified?email=" + dto.getEmail() + "&selectedRole=" + dto.getRole();
 	}
 
 	@PreAuthorize("hasRole('GUEST')")

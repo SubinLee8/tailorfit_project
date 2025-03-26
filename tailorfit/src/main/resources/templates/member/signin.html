@@ -8,9 +8,15 @@
 		<div class="card card-body">
 			<form method="post"
 				style="background: white; padding: 20px; border-radius: 8px; border: none; box-shadow: none;">
-				<div class="mt-2 text-danger" th:if="${param.error}">Invalid account</div>
-				<div class="mt-2 text-danger" th:if="${param.logout}">you've been logged out. Log-in again</div>
-				<div class="mt-2 text-success" th:if="${param.verified}">Email verification was successful! Log-in now.</div>
+				<div class="mt-2 text-danger" th:if="${param.error}">Invalid
+					account</div>
+				<div class="mt-2 text-danger" th:if="${param.logout}">you've
+					been logged out. Log-in again</div>
+				<div class="mt-2 text-success" th:if="${param.verified}">Email
+					verification was successful! Log-in now.</div>
+				<div class="mt-2 text-success" th:if="${param.tobodymetrics}">Email
+					verification was successful! You need to update your Bodymetrics
+					and become an Athlete</div>
 				<div class="mt-2">
 					<input type="text" class="form-control" name="username"
 						placeholder="username" required autofocus />
@@ -22,7 +28,8 @@
 				<div class="mt-2">
 					<input type="submit" class="btn form-control" value="login">
 				</div>
-				<a th:href="@{/member/signup}" class="form-control btn"> register </a>
+				<a th:href="@{/member/signup}" class="form-control btn">
+					register </a>
 			</form>
 		</div>
 	</main>
