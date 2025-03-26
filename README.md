@@ -23,7 +23,7 @@ CI/CD - Docker, Github Actions </div>
 -Get verification through a link via Email using token stored in Redis valid for 10 mins </br>
 -Set access permissions based on user roles using Spring Security</br>
 5️⃣ Data Visualization </br>
--Visualize the average exercise data for the last 4 weeks and the latest 4 weight data points using charts/graphsn</br>
+-Visualize the average exercise data for the last 4 weeks and the latest 4 weight data points using charts/graphs</br>
 <h3>✅ Additional Features</h3></br>
 1️⃣ View Other Users' Public Exercise Records</br>
 -View exercise record posts from users who follow similar exercise routines</br>
