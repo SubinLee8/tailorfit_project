@@ -3,7 +3,7 @@
 🚩 <a href="https://drive.google.com/drive/u/0/folders/110PJ7okLoFwarU_71RrWO-RFCcV8yJVS">link</a> for Presentation PDF(written in Korean) and Recorded Preview Video</br>
 <h4>2 weeks Solo Project with Spring Boot MVC Architecture</h4>
 <div>Language - Java, Sql, Html, Javascript, Css </br>
-DB - AWS RDS (MySQL) </br>
+DB - AWS RDS (MySQL), Redis </br>
 SERVER - AWS EC2 </br>
 API - Rest API </br>
 IDE - Eclipse, MysSQL Workbench  </br>
@@ -19,9 +19,10 @@ CI/CD - Docker, Github Actions </div>
 -MySQL: Store user profiles and health records (data by date)</br>
 3️⃣ Personalized Recommendation System</br>
 -Calculate BMI index and provide weekly running, walking, and stretching times based on the index</br>
-4️⃣ Membership Registration for Athletes, Trainers, or Both</br>
+4️⃣ Membership Registration for Athletes, Trainers, or Both Using Email Authentication </br>
+-Get verification through a link via Email using token stored in Redis valid for 10 mins </br>
 -Set access permissions based on user roles using Spring Security</br>
-5️⃣ Data Visualization (Frontend Integration)</br>
+5️⃣ Data Visualization </br>
 -Visualize the average exercise data for the last 4 weeks and the latest 4 weight data points using charts/graphsn</br>
 <h3>✅ Additional Features</h3></br>
 1️⃣ View Other Users' Public Exercise Records</br>
