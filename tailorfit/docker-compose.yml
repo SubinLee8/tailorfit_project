@@ -18,11 +18,23 @@ services:
       - redis  # Redis가 먼저 시작되어야 앱이 시작됨
   
   redis:
-    image: "redis:latest"  # Redis 최신 이미지 사용
+    image: "redis:latest"  # Redis 최신 이미지 
     ports:
-      - "6379:6379"  # Redis 기본 포트
+      - "6379:6379"  # Redis 포트
     volumes:
       - redis-data:/data  # Redis 데이터 저장을 위한 볼륨 설정
+   
+   
+ nginx:
+    image: nginx:latest  # Nginx 최신 이미지
+    ports:
+      - "80:80"   # HTTP 포트
+      - "443:443" # HTTPS 포트
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx 설정 파일 
+      - ./certs:/etc/nginx/certs  # SSL 인증서 
+    depends_on:
+      - app  # Nginx가 앱이 실행된 후 시작되도록 설정
 
 volumes:
-  redis-data:
+  redis-data: #도커가 볼륨을 자동으로 관리하도록 설
