@@ -32,7 +32,7 @@ services:
       - "443:443" # HTTPS 포트
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx 설정 파일 
-      - ./certs:/etc/nginx/certs  # SSL 인증서 
+      #- ./certs:/etc/nginx/certs  # SSL 인증서 
     depends_on:
       - app  # Nginx가 앱이 실행된 후 시작되도록 설정
 
